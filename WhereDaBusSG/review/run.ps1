@@ -1,4 +1,4 @@
-param([ValidateSet('Start','Stop')][string]$Action='Start')
+param([ValidateSet('Start','Stop')][string]$Action='Start', [switch]$NoBrowser)
 $ErrorActionPreference = 'Stop'
 $config = Join-Path $PSScriptRoot '.env.review'
 if (-not (Test-Path -LiteralPath $config)) {
@@ -35,5 +35,12 @@ for ($attempt = 0; $attempt -lt 40; $attempt++) {
     catch { Start-Sleep -Seconds 2 }
 }
 if (-not $ready) { throw 'Review API did not become ready.' }
-Write-Host "Open $base/#trend"
-Write-Host "Historical trend JSON: $base/analytics/trend?service=70M&stop=66359&date_from=2026-11-22&date_to=2026-11-22"
+$reviewUrl = "$base/?review=morning#peak"
+Write-Host "Morning crowding: $reviewUrl"
+if (-not $NoBrowser) {
+    try {
+        Start-Process $reviewUrl
+    } catch {
+        Write-Host 'Paste the address above into your browser to open the review.'
+    }
+}

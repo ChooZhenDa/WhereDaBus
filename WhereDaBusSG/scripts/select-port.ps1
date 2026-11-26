@@ -1,6 +1,9 @@
-param([string]$ProjectPath = (Split-Path -Parent $PSScriptRoot))
+param([string]$ProjectPath)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+if (-not $ProjectPath) {
+    $ProjectPath = Split-Path -Parent $PSScriptRoot
+}
 
 function Test-AvailableTcpPort([int]$Port) {
     $listener = New-Object Net.Sockets.TcpListener([Net.IPAddress]::Loopback, $Port)

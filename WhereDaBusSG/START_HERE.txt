@@ -1,184 +1,83 @@
-WhereDaBusSG - complete standalone installation
+WhereDaBus SG | Group 51 | INF2003
 
-GET STARTED
+TO VIEW THE SUBMITTED PROJECT
 
-1. Open Docker Desktop and wait for its Linux containers engine to be ready.
-   If Docker Desktop is not installed, follow its official Windows installer:
+Extract Source_Data_Manual.zip and open the WhereDaBusSG folder. If you
+cloned the repository, open its WhereDaBusSG application folder.
+Double-click Setup.cmd. It starts Docker Desktop if needed. Docker Desktop
+for Windows with Linux containers must be installed once.
+The first build needs internet access. Setup loads the included data and
+opens the website. On a fresh copy you can use it without an LTA key.
+Morning crowding opens for service 860 at stop 59059 on 18 November 2026.
+Use the menu for other features. USER_MANUAL.txt has two short demonstrations.
+
+If this folder already has a valid live .env, Setup opens the existing site.
+It keeps its route catalogue, fills an empty catalogue from the submission,
+and adds missing samples within the database's retention period. If the
+recorded morning has expired there, Setup opens the archived results.
+
+OPTIONAL: SET UP LIVE ARRIVALS ON WINDOWS
+
+Follow these steps if you want to fetch current predictions or collect new
+observations. This workflow uses your own LTA account and separate databases.
+
+1. If Docker Desktop is not yet installed, use the Windows installation
+   instructions for Linux containers:
    https://docs.docker.com/desktop/setup/install/windows-install/
+2. Open PowerShell in the application folder and run .\Setup.cmd --live.
+   Enter your LTA DataMall AccountKey when prompted. The key is hidden as
+   you type.
+   For a key, use https://datamall.lta.gov.sg/content/datamall/en/request-for-api.html
+3. Wait for the browser to open. Setup generates local database passwords,
+   chooses a port and imports the route network. Use the address shown in
+   the window. Select Live data to use this installation. Opening Live
+   arrivals and choosing a stop displays current predictions.
 
-2. Extract this entire ZIP into a new folder. Open the extracted
-   WhereDaBusSG-Standalone folder and double-click Setup.cmd.
+Use .\Setup.cmd --live again if you need to change the saved key.
 
-3. Paste your LTA DataMall AccountKey when prompted and press Enter.
-   Nothing appears while you type/paste the key; this is normal.
-   Keep the setup window open until the application opens in your browser.
+Live app controls
+  Start.cmd         Reopen the live installation.
+  Stop.cmd          Stop it and retain the data in Docker.
+  Refresh-Data.cmd  Refresh the LTA stops and routes.
+  Start-Live.cmd    Start and refresh the LTA stops and routes.
 
-That is the complete setup. You do not need any old project, .env file, patch,
-manual database setup, stop-code list, Python or Node.js installation.
-An internet connection is needed for initial downloads and live data.
+A valid key, internet access and a successful first static import are needed
+for live use. For an HTTP 401 or 403, rerun .\Setup.cmd --live. For an
+import failure, check the key and connection and rerun Refresh-Data.cmd.
+Keep the generated .env and Docker volumes in place between runs. The .env
+contains the private LTA key and database credentials. Keep it on your PC.
 
-If you need an LTA key:
-https://datamall.lta.gov.sg/content/datamall/en/request-for-api.html
-Pressing Enter without a key opens the clearly labelled demo. A valid key is
-required for actual live arrivals and importing the real bus network.
+Live arrival features
+  Search a stop in Live arrivals, or select two stops in Direct routes.
+  Where available, routes show minutes until boarding, reported load and
+  an estimated adult card fare for one direct ride. Feedback beside an
+  upcoming arrival lets riders report a full, delayed or skipped bus.
+  Use the same browser to change or clear a report. Other riders on this
+  installation see the count for the same service, stop and advertised ETA.
 
-WHAT SETUP DOES
+Collect new history
+  Start-Sampling.cmd starts the collector for the configured stops.
+  Sampling-Status.cmd shows recent activity. Stop-Sampling.cmd ends
+  collection. Keep Docker running and the computer awake while sampling.
+  A live arrival lookup by itself does not record a historical sample.
 
-Setup creates a unique installation identity, random database passwords and a
-private .env file. It chooses an available local port, builds the application,
-creates its PostgreSQL and MongoDB databases, then imports stops and routes.
-It opens the correct browser address automatically (usually localhost:18081;
-use the address printed in the setup window if a different port was selected).
-The first run can take several minutes while downloads and imports complete.
+  To inspect new readings, open Half-hour trends, choose a sampled stop,
+  service and date range, then run the query. Morning crowding uses weekday
+  samples between 07:00 and 08:59 Singapore time. A report can return zero
+  observations if collection was off during that period.
 
-Each new installation uses its own databases and application image. Existing
-WhereDaBusSG installations do not supply or block this installation's passwords.
-If a legacy or damaged .env is already present, Setup preserves a private backup
-and creates a new isolated installation. It does not erase the earlier databases.
-A valid configuration created by this version is reused on later runs.
+Move live samples to another PC
+  1. With the live app running, run Export-Samples.cmd. Find the resulting
+     ZIP in sample-backups.
+  2. Copy the ZIP to the target PC and complete live setup there.
+  3. Drag the ZIP onto Restore-Samples.cmd, or run the launcher and enter
+     the backup path. The import preserves original IDs and skips
+     duplicates. The live installation uses 90-day retention. Older
+     readings remain in the backup. The transfer holds arrival history;
+     personal saved journeys and feedback stay on the original installation.
 
-EVERYDAY USE
-
-Start.cmd         Start this installation and open its browser address.
-Stop.cmd          Stop this installation, keeping its saved data.
-Refresh-Data.cmd  Start and refresh the imported stops/routes.
-Start-Live.cmd    Start and refresh the imported stops/routes.
-Setup.cmd         Initial setup, or update your saved LTA key.
-
-Keep Docker Desktop running while using the application.
-To correct a mistyped API key, run Setup.cmd again and enter the replacement.
-There is no need to edit database passwords or copy configuration files.
-
-PAGES
-
-Live arrivals: search by stop name or road and select a stop.
-Nearby stops: allow browser location access, or enter coordinates.
-Direct routes: select your own origin and destination, then Find a route.
-Routes by road: search a road for services.
-Longest routes: rank up to ten service directions by recorded distance (SQL).
-Morning crowding: analyse weekday 07:00-08:59 observations (MongoDB).
-Half-hour trends: chart stored crowding and a weighted rolling mean (MongoDB).
-Saved stops: keep shortcuts in this browser.
-Help & status: check connections and imported route coverage.
-
-HISTORICAL REPORTS
-
-Choose Live data, then Morning crowding or Half-hour trends. Choose a sampled
-stop and service. Pick dates in Singapore time and run the report. Both dates
-are inclusive; select at most 31 days. Today so far includes the current day.
-The original API default remains the previous seven completed Singapore days.
-
-Historical collection must have been running during the selected period.
-Live-arrival lookups do not populate the historical collection. Data cannot be
-recovered for times before collection began. Morning crowding requires weekday
-samples between 07:00 and 08:59 SGT; use trends to inspect other times.
-
-Download CSV or JSON after a successful report. Exports include the query and
-source label. Demo mode uses browser-generated examples and does NOT query
-PostgreSQL or MongoDB. Use Live data for evidence of database execution.
-
-A crowding score is an ordinal category (0 seats available, 1 standing
-available, 2 limited standing), not a passenger count or occupancy percentage.
-Unknown values remain unknown. The weighted rolling value uses the current
-and two preceding observed half-hour periods, which may have gaps.
-
-Open Help & status > API documentation for the backend /docs page on the same
-address as this installation. Its port is the APP_PORT in your existing .env.
-
-Transfer planning and fare calculation are not implemented. Do not claim them
-as completed features. See UI_UPGRADE_GUIDE.txt for a demonstration checklist.
-For an existing installation, use the supplied UI upgrade rather than creating
-a new installation. The upgrade preserves .env, compose.yaml and data volumes.
-
-ROUTE DATA
-
-Valid route records remain searchable even when another part of their route
-has gaps. Results spanning a gap are marked partial, with unknown exact stop
-counts/distances omitted. The application cannot invent missing LTA records or
-guarantee every service is completely supplied. Direct routes searches a single
-service in the correct direction; it does not plan journeys needing transfers.
-
-IF SETUP STOPS
-
-Docker not found / engine not ready:
-  Install or open Docker Desktop, wait for its engine, and rerun Setup.cmd.
-  Use Linux containers. Follow Docker's WSL/restart instructions if shown.
-
-Invalid LTA key / HTTP 401 or 403:
-  Run Setup.cmd and enter your correct AccountKey.
-
-Download/build/network error:
-  Check internet access and Docker Desktop, then rerun Setup.cmd.
-
-Data import error:
-  Check your key and connection, then run Refresh-Data.cmd.
-  Existing successfully imported route data remains available if a later
-  refresh fails. A new installation needs its first import to succeed.
-
-Browser does not open:
-  Enter the address printed by the launcher. It may differ from the older
-  application's port 8081. Press Ctrl+F5 if old browser files are cached.
-
-Extra diagnostic detail is available through Help & status or the Docker
-Desktop containers belonging to this installation. Never share your .env,
-its private backups or API key.
-
-FILES AND SUBMISSION
-
-Keep the generated .env with this installation. Your database records are
-stored in this installation's Docker volumes. Copying only the application
-folder does not copy those volumes. Saved stops belong to this browser/address.
-For another independent installation, extract a clean copy of this ZIP.
-
-The source code, SQL scripts, synthetic test fixtures and developer tests are
-included. For the INF2003 source+data+manual ZIP, use the bundled utility in
-submission-tools after your app is working; read its READ_ME_FIRST.txt.
-That utility is optional and is not part of installation.
-
-Read TEST_RESULTS.txt for checks and remaining verification limits.
-
-DATABASE EVIDENCE UPGRADE
-Use Start-Sampling.cmd, Sampling-Status.cmd and Stop-Sampling.cmd for history.
-Run Collect-Evidence.cmd to record database construction, CRUD and query timings.
-Read EVIDENCE_GUIDE.txt before interpreting the generated JSON or presenting it.
-The source exporter requires nonempty arrival_observations for this analytics
-submission. Re-export after sampling; an old source ZIP does not gain new data.
-
-COMMUTER COMPARISON AND SAVED JOURNEYS
-Open Direct routes and select your boarding stop and destination. Results show
-the estimated adult card fare for a single direct bus ride where a published
-fare applies. The wait is until boarding. A report of
-seats available describes the approaching bus at the time it was observed.
-Where a direction or loop visit cannot be verified, the route stays visible.
-History is scoped to that boarding stop, service, operator, dates and weekday
-mornings (07:00 to before 09:00 Singapore time). Observations count predictions;
-many samples can relate to the same bus. Save the comparison JSON to keep the
-actual filters, counts, timestamps and missing values used in your demonstration.
-
-Use Feedback beside an upcoming arrival to report a full bus, a delay or a
-skipped stop. Other riders using this installation see a count for that timing.
-Use the same browser to change or clear your report. If the provider revises
-the ETA, the new timing has its own feedback.
-
-Save a journey with a name. Open Saved journeys to reopen it with fresh arrival
-data, rename it, or delete it. The journeys live in PostgreSQL. The private key
-for the list lives in this browser profile at this app address. Saved stops and
-Try demo keep their existing browser-local storage. Submission exports omit
-personal saved-journey rows.
-
-CARRY YOUR HISTORICAL SAMPLES TO ANOTHER COMPUTER
-For an in-place upgrade use the same installation, .env and Docker volumes.
-Opening the upgraded app there immediately uses the existing sampling history.
-For a different computer:
-1. On the source, use Export-Samples.cmd with the app running. The verified
-   ZIP is written to sample-backups. Collection can continue during export.
-2. Copy the ZIP and a clean copy of the updated application to the new PC.
-   Run Setup.cmd there, enter your own settings, and wait for the app to open.
-3. Drag the sample ZIP onto Restore-Samples.cmd in the new application folder,
-   or double-click the launcher and enter its full path. It verifies the ZIP
-   before writing and merges historical records by their original IDs. A
-   retry skips records already present. The result lists inserted, existing
-   and expired counts. New collection uses that installation's sampling settings.
-The ZIP holds historical arrival observations only. It retains original UTC
-times and MongoDB types. Records beyond the destination's 90-day retention
-remain in the portable ZIP. Store the ZIP if you need a longer-lived archive.
+Development and database evidence
+  Collect-Evidence.cmd records controlled database checks and query timings.
+  EVIDENCE_GUIDE.txt describes these results. For a fresh live export, use
+  submission-tools/READ_ME_FIRST.txt. The submitted snapshot and its audit
+  evidence are already included in the review copy.

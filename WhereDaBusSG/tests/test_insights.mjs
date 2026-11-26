@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {sgDate,datePreset,validDateRange,chartSegments,trendChart,csvText,formatSG} from '../backend/web/insights-model.js';
 import {demoRequest} from '../backend/web/demo.js';
+import {createInsights} from '../backend/web/insights.js';
 
 test('Singapore date presets cross UTC midnight correctly',()=>{
   const now=Date.parse('2026-11-15T17:00:00Z');
@@ -9,6 +10,44 @@ test('Singapore date presets cross UTC midnight correctly',()=>{
   assert.deepEqual(datePreset('today',now),{from:'2026-11-16',to:'2026-11-16'});
   assert.deepEqual(datePreset('week',now),{from:'2026-11-09',to:'2026-11-15'});
   assert.match(formatSG(now),/16 Nov/);
+});
+
+test('the review submits its recorded peak once and keeps later manual filters', t => {
+  const elements = new Map();
+  const field = id => {
+    if (!elements.has(id)) elements.set(id, {
+      value: '', handlers: {}, addEventListener(type, handler) { this.handlers[type] = handler; },
+      reportValidity() { return true; }, setCustomValidity() {}
+    });
+    return elements.get(id);
+  };
+  const previousDocument = globalThis.document;
+  globalThis.document = {getElementById: field, querySelectorAll: () => [], addEventListener() {}};
+  t.after(() => { if (previousDocument) globalThis.document = previousDocument; else delete globalThis.document; });
+
+  const queries = [];
+  let finishOptions;
+  const insights = createInsights({
+    getMode: () => 'live', invalidate() {},
+    api(path, params) { queries.push({path, params}); },
+    run(region, request, render) {
+      if (region === 'peak-options') finishOptions = render;
+      if (region === 'peak-result') request();
+    }
+  });
+  insights.enter('peak');
+  assert.deepEqual(queries, []); // Opening the normal live page waits for a user selection.
+  insights.showRecordedMorning();
+  assert.deepEqual(queries, [{path: '/analytics/peak', params: {
+    stop: '59059', service: '860', date_from: '2026-11-18', date_to: '2026-11-18'
+  }}]);
+  field('peak-service').value = '860T';
+  field('peak-form').handlers.input();
+  finishOptions({choices: {stops: [{stopCode: '22599', services: ['1']}]}});
+  insights.enter('peak');
+  assert.equal(field('peak-service').value, '860T');
+  assert.equal(field('peak-stop').value, '59059');
+  assert.equal(queries.length, 1);
 });
 test('date range validation rejects impossible, reversed, future and overlong dates',()=>{
   const now=Date.parse('2026-11-16T05:00:00Z');

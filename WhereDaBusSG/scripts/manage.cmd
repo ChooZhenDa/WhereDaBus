@@ -27,6 +27,7 @@ if not exist "compose.yaml" (
   exit /b 1
 )
 if /i "%ACTION%"=="Setup" goto preflight
+if /i "%ACTION%"=="SetupRecorded" goto preflight
 if /i "%ACTION%"=="Start" goto preflight
 if /i "%ACTION%"=="StartLive" goto preflight
 if /i "%ACTION%"=="RefreshData" goto preflight
@@ -80,11 +81,12 @@ echo.
 echo Starting WhereDaBus SG on http://localhost:%LAUNCH_PORT%/ ...
 docker compose --project-name %LAUNCH_PROJECT% --file compose.yaml --env-file .env up --build -d --wait --wait-timeout 300 api
 if errorlevel 1 goto startup_failed
+if /i "%ACTION%"=="SetupRecorded" goto load_recorded
 if /i "%ACTION%"=="Start" goto open_app
 
 :imports
 if "%LAUNCH_HAS_KEY%"=="0" (
-  echo No LTA key was entered. Opening the labelled demo. Run Setup.cmd to add your key later.
+  echo No LTA key was entered. Opening the labelled demo. Run Setup.cmd --live to add your key later.
   goto open_app
 )
 echo.
@@ -103,6 +105,23 @@ if errorlevel 1 (
 )
 goto open_app
 
+:load_recorded
+echo Preparing the recorded route network and crowding history...
+docker compose --project-name %LAUNCH_PROJECT% --file compose.yaml --env-file .env exec -T api python -m backend.submission_network < "data\postgresql.sql"
+if errorlevel 1 exit /b 1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0sample-transfer.ps1" -Action Restore -ProjectPath "%CD%" -Archive "%CD%\data\samples.zip" -CheckMorningPort %LAUNCH_PORT%
+if "%errorlevel%"=="3" goto archived_review
+if errorlevel 1 exit /b 1
+set "APP_URL=http://localhost:%LAUNCH_PORT%/?review=morning#peak"
+goto show_url
+
+:archived_review
+echo Opening the included archive so the recorded morning is available.
+set "REVIEW_OPTION="
+if defined NO_BROWSER set "REVIEW_OPTION=-NoBrowser"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\review\run.ps1" -Action Start %REVIEW_OPTION%
+exit /b %errorlevel%
+
 :stop
 docker compose --project-name %LAUNCH_PROJECT% --file compose.yaml --env-file .env stop
 if errorlevel 1 exit /b 1
@@ -112,13 +131,15 @@ exit /b 0
 :open_app
 set "APP_URL=http://localhost:%LAUNCH_PORT%/"
 if "%LAUNCH_HAS_KEY%"=="0" set "APP_URL=%APP_URL%?mode=demo"
+if /i "%ACTION%"=="Start" if exist "data\samples.zip" if exist "review\run.ps1" set "APP_URL=http://localhost:%LAUNCH_PORT%/"
+:show_url
 echo.
 echo Open %APP_URL%
 if not defined NO_BROWSER start "" "%APP_URL%"
 exit /b %LAUNCH_RESULT%
 
 :invalid_state
-echo Installation settings could not be read safely. Run Setup.cmd again.
+echo Installation settings could not be read. Run Setup.cmd --live to check the live configuration.
 exit /b 1
 
 :startup_failed

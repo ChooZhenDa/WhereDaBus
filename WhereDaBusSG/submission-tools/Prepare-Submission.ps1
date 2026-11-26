@@ -1,9 +1,12 @@
 param(
-    [string]$ProjectPath = (Split-Path -Parent $PSScriptRoot),
+    [string]$ProjectPath,
     [string]$GroupId
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+if (-not $ProjectPath) {
+    $ProjectPath = Split-Path -Parent $PSScriptRoot
+}
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $Utf8 = New-Object System.Text.UTF8Encoding($false)
 

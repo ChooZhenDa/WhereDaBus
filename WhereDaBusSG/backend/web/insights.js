@@ -136,5 +136,13 @@ export function createInsights({api,run,getMode,routeRequest,routeCoverage,inval
     state.loaded.add(page);
     if(page==='longest')longest();else loadOptions(page);
   }
-  reset();return {enter,reset};
+  function showRecordedMorning() {
+    el('peak-stop').value = '59059';
+    el('peak-service').value = '860';
+    el('peak-from').value = '2026-11-18';
+    el('peak-to').value = '2026-11-18';
+    updateServices('peak');
+    report('peak');
+  }
+  reset();return {enter,reset,showRecordedMorning};
 }

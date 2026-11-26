@@ -1,3 +1,18 @@
+WhereDaBus SG - Group 51 submission, 26 November 2026
+
+Extract the source ZIP and double-click Setup.cmd. Docker Desktop must be
+installed once. Setup starts it if needed. On a fresh copy it loads the
+submission databases without an LTA key and
+opens Morning crowding for service 860 at stop 59059 on 18 November 2026.
+An existing live installation keeps its route catalogue. Setup fills an empty
+catalogue and restores missing packaged observations within the retention
+period. If the recorded morning has expired, Setup opens the archive.
+See USER_MANUAL.txt for other queries. For optional live configuration, run
+.\Setup.cmd --live. Windows PowerShell 5.1 now resolves the installation
+folder for the backup, sampling and evidence commands run from Explorer.
+
+Earlier standalone installation notes
+
 WhereDaBusSG - standalone installer revision 2, 15 November 2026
 
 FIXED IN REVISION 2
@@ -10,7 +25,7 @@ installation identity and database records do not need to be replaced.
 To update an already extracted copy, copy all files from this ZIP's inner
 WhereDaBusSG-Standalone folder into your existing application folder and accept
 file replacements. This ZIP contains no .env, so your saved configuration remains.
-Then run Setup.cmd; press Enter to retain the existing LTA key.
+In this release, use .\Setup.cmd --live to reconfigure the saved LTA key.
 
 WhereDaBusSG - standalone installer, 15 November 2026
 

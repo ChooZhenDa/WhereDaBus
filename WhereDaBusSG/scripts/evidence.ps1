@@ -1,10 +1,13 @@
 param(
     [ValidateSet('Start','Stop','Status','Collect')]
     [string]$Action = 'Status',
-    [string]$ProjectPath = (Split-Path -Parent $PSScriptRoot)
+    [string]$ProjectPath
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+if (-not $ProjectPath) {
+    $ProjectPath = Split-Path -Parent $PSScriptRoot
+}
 $Utf8 = New-Object System.Text.UTF8Encoding($false)
 function Invoke-Compose([string[]]$Arguments) {
     & docker @script:Compose @Arguments

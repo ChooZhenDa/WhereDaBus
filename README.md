@@ -1,19 +1,26 @@
 # WhereDaBus SG
 
-Group 51's INF2003 project combines PostgreSQL route searches with MongoDB arrival and crowding history. This repository starts from the 26 November 2026 submission. The included snapshot contains 85,724 arrival observations.
+## Run the submission on Windows
 
-## Run the recorded demo on Windows
+1. Extract `Source_Data_Manual.zip` or open your cloned repository, then open the `WhereDaBusSG` application folder.
+2. Double-click [Setup.cmd](WhereDaBusSG/Setup.cmd). Setup starts Docker Desktop if needed and opens the app in your browser.
 
-1. Start Docker Desktop in Linux containers mode. The first build needs internet access.
-2. Double-click [Start-Review.cmd](WhereDaBusSG/Start-Review.cmd) and open the localhost address it prints. The launcher restores the packaged snapshot and checks the results. The recorded demo works without an LTA key.
-3. To reproduce the report, open **Half-hour trends**, choose stop **66359**, service **70M**, and set both dates to **22 November 2026**. At 10:00 a.m. Singapore time, 26 of 30 observations qualified and all 26 reported standing room available.
+Docker Desktop for Windows with Linux containers must be installed once. The first build needs internet access.
 
-See the [user manual](WhereDaBusSG/USER_MANUAL.txt) for the SQL route demo, live configuration, sample transfer and shutdown instructions. The editable report, PDF and PowerPoint are in [docs](docs/).
+On a fresh PC, Setup loads the included PostgreSQL and MongoDB snapshot automatically without an LTA key. **Morning crowding** opens with service **860**, stop **59059** and **18 November 2026** already selected.
 
-## Work with your teammates
+If you already use the live app in this folder, Setup keeps your existing routes and adds missing observations within the retention period. If the recorded morning has expired from the live database, Setup opens the archived results automatically.
 
-Once the private GitHub repository is published, teammates with access can copy its HTTPS URL from **Code** and run `git clone <repository-url>` once. Open the cloned folder for future work.
+Use the menu to explore **Direct routes**, **Saved journeys**, or **Half-hour trends**. The [user manual](WhereDaBusSG/USER_MANUAL.txt) gives a trip and a chart you can reproduce from the report.
 
-Run `git pull --ff-only` before starting work. Check `git status`, stage the files you changed with `git add <file>`, commit with `git commit -m "Describe your change"`, then run `git push`. If two people change the same report or slide deck, coordinate who edits it since Git cannot automatically merge Office documents.
+## Project files
 
-Git carries the source, documents and recorded snapshot. Each computer keeps its own live database and credentials. Use the export and restore launchers in the user manual to transfer newly collected observations.
+- [WhereDaBusSG/](WhereDaBusSG/) contains the application, database setup, evidence, and 85,724 recorded arrival observations.
+- [docs/](docs/) contains the report and slides.
+- [START_HERE.txt](WhereDaBusSG/START_HERE.txt) explains the separate setup for collecting new LTA arrivals.
+
+## Working together
+
+Clone the team repository once. Run `git pull --ff-only` before editing. Use `git status` to check your changes, then `git add <file>`, `git commit -m "Describe your change"`, and `git push`. Coordinate edits to the Word and PowerPoint files so two people do not overwrite the same document.
+
+The repository carries the recorded snapshot. Each teammate's live database and LTA credentials stay on their own computer.
