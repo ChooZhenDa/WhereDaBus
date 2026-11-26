@@ -1,0 +1,81 @@
+WhereDaBus SG | Group 51 | INF2003
+User manual for the submitted application and data
+
+1. Start the recorded-data version
+
+On Windows, extract this entire ZIP to a local folder. Start Docker Desktop in
+Linux-containers mode and run Start-Review.cmd inside WhereDaBusSG. The first
+build needs internet access for public Docker images and Python packages.
+The review launcher creates separate PostgreSQL 16 and MongoDB 7 volumes,
+generates private local credentials, restores the SQL and BSON, and checks
+the results of two real MongoDB queries against the export. This can take
+several minutes on the first run. Open the localhost address printed by the
+launcher and select Live data to query the database. No LTA key is needed.
+Stop-Review.cmd stops this review copy and keeps the data for your next run.
+Keep its generated review/.env.review in place between runs.
+
+2. Reproduce the results in the report
+
+Half-hour trends: set stop 66359, service 70M, and both date fields to
+22 November 2026. Select Show trend. Across 34 observed half-hours the query
+produces 965 first-arrival observations, of which 877 are eligible. In the
+10:00 Singapore-time bucket there are 30 first arrivals. All 26 eligible
+loads show standing available. The period score is 1.00 and the weighted mean
+across three observed bins is 63/80 = 0.7875. The launcher also prints the
+direct JSON URL, which works independently of UI settings.
+
+Morning crowding: enter stop 59059, service 860, and select 18 through 20
+November 2026. The 07:00-08:59 weekday query returns 37 observations, 34
+eligible; all 34 show seats available. Only one morning contributes data.
+Crowding is an ordinal score: 0 = seats available, 1 = standing available,
+2 = limited standing. Blank periods have no matching observations.
+
+Direct routes: search stop 59059 to stop 59009. The relational function
+returns services 857, 860 and 860T. The 860 direction 1 row spans 12 stops
+and 4.6 km. Inspect data/snapshot-results.json and evidence/ for query output.
+The API documentation is at /docs on the same localhost address. The review
+copy supports saving, renaming and deleting journeys under this browser.
+Live ETAs and new samples require a configured LTA account in a normal install.
+
+3. What the databases contain
+
+The packaged schema version is 3. data/postgresql.sql contains 5,209 bus stops,
+804 service directions, 26,946 ordered route occurrences and three import
+runs. Its schema includes users, favourites and saved journeys. Their private
+rows were excluded from the dump. data/samples.zip preserves all 85,724
+original BSON measurements, including timestamps and IDs. Their source field
+is LTA v3/BusArrival. The first observation is 18 November 2026 06:59:14 SGT;
+the last is 23 November 2026 01:30:58 SGT. The export cutoff is 26 November
+2026 02:13:07 SGT. These dates describe stored observations; coverage varies
+by stop and by time. The separate archive database retains these dates for
+replay after the standard installation's 90-day retention window.
+
+evidence/20261122-190732-cea8d0ce contains the original audit, CRUD and
+benchmark outputs. Those runs preceded the final export. Use the dates and
+counts in each evidence file when comparing results. data/snapshot-results.json
+contains the results for this exact submission. evidence/commuter/ contains
+the dated trip comparison export and two original application screenshots.
+evidence/20261126-release/ contains the indexed SQL lookup, the first and
+repeat restore results, and the reviewer API test with owner-scoped journey
+CRUD. data/EXPORT_METADATA.json identifies the data files. SUBMISSION_MANIFEST.json
+lists their SHA-256 hashes.
+
+4. Reuse your own samples or collect more data
+
+For a normal installation, follow START_HERE.txt. Use Export-Samples.cmd in
+the original installation to create a backup. Run Restore-Samples.cmd in the
+target installation, supplying the backup path when asked. To use the
+submission backup, choose data/samples.zip. The transfer verifies the BSON
+hash, preserves IDs and timestamps and skips existing IDs. In a normal
+installation, observations outside its retention window are skipped. Use the
+separate review launcher for long-term replay of this submission. Sample
+transfer carries arrival history. Personal journeys and feedback do not
+travel with it. The live setup uses your own LTA key and Start-Sampling.cmd.
+
+5. Troubleshooting
+
+If a first build fails, start Docker Desktop and rerun Start-Review.cmd. For
+a fresh independent review, extract a new copy of the original ZIP to another
+folder and run its launcher. To inspect any dataset after stopping the app,
+keep the portable files data/postgresql.sql and data/samples.zip. The review
+launcher uses a randomly assigned loopback port and its own Compose project.

@@ -1,0 +1,161 @@
+WHERE DABUS SG — EVIDENCE AND SUBMISSION GUIDE
+Revision: 16 November 2026
+
+WHAT THIS UPGRADE CHANGES
+It includes the previous analytics UI upgrade, adds four launchers, adds
+backend/evidence.py and tests, and strengthens the submission exporter.
+It keeps your existing .env, compose.yaml, sampler implementation and volumes.
+There are no new account endpoints: Saved stops remains browser localStorage.
+The CRUD demonstration is database-level evidence, not a new GUI feature.
+
+1. INSTALL ON THE EXISTING APPLICATION
+Start the existing application with Start.cmd.
+Extract this ZIP. Copy the entire WhereDaBusSG_Evidence_Upgrade folder into the
+existing application directory, beside compose.yaml and Start.cmd.
+Open that copied folder and double-click Apply-Upgrade.cmd.
+The installer checks known source hashes and backs up changes. If it reports
+a custom edit, keep the edit and merge it; do not overwrite it blindly.
+After success, press Ctrl+F5 in the website.
+Do not run Setup.cmd in a new directory just to apply this upgrade: a new
+installation identity would point at different database volumes.
+
+2. START OR RESUME HISTORY COLLECTION
+Open .env in the existing app directory, set and SAVE:
+SAMPLE_STOPS=22599,44181,59059,65069,66359
+SAMPLE_SERVICES=
+Keep your private LTA key and passwords as they are.
+Double-click Start-Sampling.cmd. This rebuilds/starts api and sampler using
+the saved configuration. After a minute, run Sampling-Status.cmd.
+Expect a running sampler and recent "sampled" log entries, normally with
+projected > 0 and failedStops/deferredStops empty. A nonempty list needs
+investigation; do not present it as complete coverage.
+Sampling occurs every 60 seconds. A cycle can produce many service
+observations; it does not create one uniquely tracked bus per document.
+Keep Docker running and the PC awake. Closing the terminal/browser is fine.
+Shutdown/sleep pauses collection. Existing volume data remains, and the next
+start appends current observations without backfilling the gap.
+Stop-Sampling.cmd stops only the sampler.
+
+3. SHOW THE NEW ANALYTICS
+Open the app at the address printed by Start.cmd (APP_PORT in .env).
+Choose Live data, not Try demo.
+Half-hour trends: select a sampled stop and a service that appears there;
+select Today so far or a range containing your actual samples, then run.
+Morning crowding: needs weekday samples during 07:00–08:59 Singapore time.
+Afternoon collection alone cannot produce morning observations.
+Longest routes: uses PostgreSQL static data; history collection is unnecessary.
+Export CSV/JSON for the selected real query and retain its filters/date range.
+The browser demo is synthetic and does not prove a database query ran.
+
+READING THE CHART
+0=seats available; 1=standing available; 2=limited standing.
+0 does not mean an empty bus or 0% occupancy. A mean is an ordinal summary.
+Unknown/schedule-only/invalid estimates are excluded from validSamples.
+Each analytic uses only the first predicted bus, monitored=1, known load, and
+an ETA between 0 and 1,800 seconds. Historical documents retain up to three.
+Rolling score weights current plus two preceding OBSERVED half-hour bins by
+valid sample count. Gaps are not filled; this need not span exactly 90 minutes.
+Repeated predictions may refer to the same bus. Do not call them unique buses.
+The latest supplied table had 153 observations, 112 valid and 41 excluded;
+all 112 eligible loads were SEA. That supports a narrow cohort conclusion,
+not "Singapore buses are uncrowded." Record the stop/service/filter before
+using that screenshot in the report.
+
+4. COLLECT DATABASE EVIDENCE
+With the upgraded app running, double-click Collect-Evidence.cmd.
+It writes audit.json, crud.json and benchmark.json under evidence/<timestamp>/.
+Read status and errors in EACH file; only present successful stages.
+Skipped/failed stages cause a non-success launcher result.
+
+audit.json:
+- PostgreSQL row counts, schema version, constraints/indexes, import timestamp,
+  and longest-route output.
+- Mongo collection settings/indexes, counts, latest observation and source labels.
+- Counts are sequential, not one cross-database snapshot.
+- Latest-observation selection is explicitly recorded, not silently guessed.
+Take screenshots of actual schema/constraints and one expanded observation.
+Mongo source labels come from saved records; labels alone do not prove origin.
+
+crud.json:
+PostgreSQL uses real users and favourite_routes tables within a transaction.
+It inserts a unique synthetic user and favourite, reads them, updates the name,
+tests duplicate and missing-user rejection, deletes the favourite and verifies
+zero rows, then checks cascade deletion. The whole transaction is rolled back.
+The script touches only its unique synthetic user's records.
+Mongo uses wheredabus_evidence.crud_proofs (or <configured-db>_evidence).
+It inserts one labelled synthetic document, reads, updates and reads it,
+tests duplicate _id rejection, then deletes and confirms absence.
+A finally block retries cleanup; a one-hour TTL is a fallback, not an instant
+cleanup guarantee. The empty collection/index remains for repeat use.
+Production arrival_observations is not edited: time-series update restrictions
+make arbitrary load edits inappropriate.
+This is an executable database demonstration. It does not establish that the
+website has user-account or favourite-route CRUD endpoints.
+Also explain actual application writes in storage.py: importer upserts,
+route replacement and cache updates. Show import_runs before/after a refresh.
+
+benchmark.json:
+Two warmups are excluded, then ten sequential repetitions run by default.
+All rows are consumed before timing ends. Raw samples, median, nearest-rank
+p95, min/max and result counts are stored. Driver connections are reused.
+The recorded window is 48 hours anchored at the latest stored observation,
+not necessarily the date range currently selected in your browser.
+The queries are SQL longest-routes and Mongo half-hour trends. Their workloads
+differ; do not rank the databases by comparing these numbers.
+SQL EXPLAIN ANALYZE BUFFERS and Mongo executionStats plans are included.
+SQL Function Scan may hide the function's inner plan; do not claim an index
+scan just because an index exists. Add CPU/RAM, Docker resource limits,
+engine versions and collection sizes to the report. Repeat only if conditions
+change or a result is inconsistent. Active sampling can affect timings.
+Empty history is marked skipped, never reported as a successful analytics test.
+
+5. RECORD A SHORT, DEFENSIBLE DEMONSTRATION
+SQL segment: show ERD, schema/constraints, the SQL CRUD proof, direct routes
+or longest routes, and explain the joins/ordering/coverage checks.
+Mongo segment: show collection options, one real observation, sampling logs,
+the separate CRUD proof, and the real peak/trend aggregation output.
+Explain deduplication by logicalKey and at-least-once writes; not exactly-once.
+End with the SQL-vs-NoSQL comparison and evidence limitations.
+Use the updated slide text. Keep the video under 10 minutes in normal speed.
+All five members must speak, with each presenter's name visible.
+
+6. EXPORT THE REAL CURRENT DATA
+After sampling and evidence capture, run:
+submission-tools/Create-Submission.cmd
+Enter group 51.
+This now refuses an empty arrival_observations export. It can also re-export
+from a previously exported source package without reusing its old data files.
+Open the new ZIP and check data/EXPORT_METADATA.json:
+mongoExportedDocuments.arrival_observations must be >0.
+Compare counts with actual saved history and explain collection time/date.
+The old 10:44 export had zero historical observations; it is not your new data.
+No running database was accessible during preparation of this upgrade, so
+this upgrade ZIP does not contain your later sampled history.
+The exporter packages source+data+manual, not the final PDF/PPTX/MP4.
+Keep evidence JSON and screenshots with your report materials; the exporter
+does not automatically include files from the evidence directory.
+For snapshot review/restoration, follow data/DATA_README.txt in the fresh ZIP.
+Do not restore old TTL-governed documents over the live application's data.
+
+7. FINAL ITEMS THE TEAM MUST COMPLETE
+- Use your XSite report template and keep body <=10 pages, Calibri 12.
+- Fill all five member names and truthful contributions.
+- Replace old measurements with your current dated export/evidence.
+- Insert actual screenshots and, if included, measured timings.
+- Build a PPTX in your chosen template and record the five-person MP4.
+- Ask a teammate to follow the manual on a separate clean installation.
+- Include final PDF, PPTX, MP4 and fresh source+data+manual ZIP in outer ZIP.
+- Deadline in the supplied brief: 29 November 2026, 23:30 SGT.
+Do not claim fares, transfers, authentication, browser database CRUD, national
+coverage, measured scalability or a guaranteed grade; those are not established.
+
+VALIDATION BOUNDARY
+See EVIDENCE_TEST_RESULTS.txt for checks actually run while preparing this
+upgrade. Your local Collect-Evidence run supplies real-engine and data evidence.
+
+References:
+https://www.postgresql.org/docs/16/sql-rollback.html
+https://www.postgresql.org/docs/16/sql-explain.html
+https://www.mongodb.com/docs/v7.0/core/timeseries/timeseries-limitations/
+https://docs.docker.com/reference/cli/docker/compose/up/
+

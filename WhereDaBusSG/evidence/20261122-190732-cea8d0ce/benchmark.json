@@ -1,0 +1,2395 @@
+{
+  "evidenceVersion": 1,
+  "mode": "benchmark",
+  "startedAtUtc": {
+    "$date": "2026-11-22T11:07:35.260Z"
+  },
+  "python": "3.12.16",
+  "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "results": {
+    "benchmark": {
+      "method": "2 warmups then sequential driver calls on reused connections; all result rows consumed. No HTTP, UI or LTA network time. Active sampling and caching may affect measurements.",
+      "comparisonLimit": "Different queries/data: these timings do not rank SQL against MongoDB.",
+      "sqlLongest": {
+        "repetitions": 10,
+        "medianMs": 20.286395490984432,
+        "p95MsNearestRank": 22.79826599988155,
+        "minMs": 20.08089897572063,
+        "maxMs": 22.79826599988155,
+        "samplesMs": [
+          20.127597003011033,
+          20.675687002949417,
+          20.08089897572063,
+          20.82797500770539,
+          20.221494982251897,
+          20.351295999716967,
+          21.976835996611044,
+          22.79826599988155,
+          20.166761009022593,
+          20.183813001494855
+        ],
+        "warmupsExcluded": 2,
+        "resultCounts": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "resultCountStable": true
+      },
+      "sqlExplain": [
+        {
+          "Plan": {
+            "Node Type": "Function Scan",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Function Name": "longest_routes",
+            "Alias": "longest_routes",
+            "Startup Cost": 0.25,
+            "Total Cost": 10.25,
+            "Plan Rows": 1000,
+            "Plan Width": 370,
+            "Actual Startup Time": 20.328,
+            "Actual Total Time": 20.328,
+            "Actual Rows": 10,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 10319,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.012,
+          "Triggers": [],
+          "Execution Time": 20.473
+        }
+      ],
+      "sqlExplainNote": "Function Scan may hide internal PL/pgSQL plans. Inspect sql/002_queries.sql; this is not proof of an internal index scan.",
+      "directRouteExampleCount": 5,
+      "selection": {
+        "service": "70M",
+        "stop": "66359",
+        "start": {
+          "$date": "2026-11-20T11:07:25.452Z"
+        },
+        "endExclusive": {
+          "$date": "2026-11-22T11:07:26.452Z"
+        }
+      },
+      "mongoTrend": {
+        "repetitions": 10,
+        "medianMs": 7.813453004928306,
+        "p95MsNearestRank": 9.746845986228436,
+        "minMs": 7.440921006491408,
+        "maxMs": 9.746845986228436,
+        "samplesMs": [
+          7.614745001774281,
+          7.831502007320523,
+          9.746845986228436,
+          8.392185991397128,
+          7.440921006491408,
+          7.535449985880405,
+          8.986984001239762,
+          7.795404002536088,
+          7.9487340117339045,
+          7.615252019604668
+        ],
+        "warmupsExcluded": 2,
+        "resultCounts": [
+          37,
+          37,
+          37,
+          37,
+          37,
+          37,
+          37,
+          37,
+          37,
+          37
+        ],
+        "resultCountStable": true
+      },
+      "trendRows": [
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T10:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 27,
+          "validSamples": 9,
+          "scoreTotal": 0,
+          "seatsAvailable": 9,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 33.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 9,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T10:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 29,
+          "scoreTotal": 0,
+          "seatsAvailable": 29,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 96.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 38,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T11:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 0,
+          "seatsAvailable": 28,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 66,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T11:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 4,
+          "seatsAvailable": 23,
+          "standingAvailable": 4,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.14814814814814814,
+          "seatsAvailablePct": 85.18518518518519,
+          "standingAvailablePct": 14.814814814814813,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 4,
+          "rollingValid": 84,
+          "rollingMeanOrdinal": 0.047619047619047616
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T12:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 0,
+          "seatsAvailable": 27,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 4,
+          "rollingValid": 82,
+          "rollingMeanOrdinal": 0.04878048780487805
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T12:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 0,
+          "seatsAvailable": 28,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 4,
+          "rollingValid": 82,
+          "rollingMeanOrdinal": 0.04878048780487805
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T13:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 0,
+          "seatsAvailable": 28,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 83,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T13:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 0,
+          "seatsAvailable": 27,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 83,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T14:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 25,
+          "scoreTotal": 0,
+          "seatsAvailable": 25,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 83.33333333333334,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 80,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T14:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 0,
+          "seatsAvailable": 28,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 80,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T15:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 0,
+          "seatsAvailable": 28,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 81,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T15:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 3,
+          "validSamples": 2,
+          "scoreTotal": 0,
+          "seatsAvailable": 2,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 66.66666666666666,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 0,
+          "rollingValid": 58,
+          "rollingMeanOrdinal": 0.0
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T23:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 4,
+          "validSamples": 3,
+          "scoreTotal": 1,
+          "seatsAvailable": 2,
+          "standingAvailable": 1,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.3333333333333333,
+          "seatsAvailablePct": 66.66666666666666,
+          "standingAvailablePct": 33.33333333333333,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 75.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 1,
+          "rollingValid": 33,
+          "rollingMeanOrdinal": 0.030303030303030304
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-21T23:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 26,
+          "scoreTotal": 11,
+          "seatsAvailable": 15,
+          "standingAvailable": 11,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.4230769230769231,
+          "seatsAvailablePct": 57.692307692307686,
+          "standingAvailablePct": 42.30769230769231,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 86.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 12,
+          "rollingValid": 31,
+          "rollingMeanOrdinal": 0.3870967741935484
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T00:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 13,
+          "seatsAvailable": 15,
+          "standingAvailable": 13,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.4642857142857143,
+          "seatsAvailablePct": 53.57142857142857,
+          "standingAvailablePct": 46.42857142857143,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 25,
+          "rollingValid": 57,
+          "rollingMeanOrdinal": 0.43859649122807015
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T00:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 26,
+          "scoreTotal": 18,
+          "seatsAvailable": 8,
+          "standingAvailable": 18,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.6923076923076923,
+          "seatsAvailablePct": 30.76923076923077,
+          "standingAvailablePct": 69.23076923076923,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 86.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 42,
+          "rollingValid": 80,
+          "rollingMeanOrdinal": 0.525
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T01:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 24,
+          "scoreTotal": 24,
+          "seatsAvailable": 0,
+          "standingAvailable": 24,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 1.0,
+          "seatsAvailablePct": 0.0,
+          "standingAvailablePct": 100.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 80.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 55,
+          "rollingValid": 78,
+          "rollingMeanOrdinal": 0.7051282051282052
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T01:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 30,
+          "scoreTotal": 13,
+          "seatsAvailable": 17,
+          "standingAvailable": 13,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.43333333333333335,
+          "seatsAvailablePct": 56.666666666666664,
+          "standingAvailablePct": 43.333333333333336,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 100.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 55,
+          "rollingValid": 80,
+          "rollingMeanOrdinal": 0.6875
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T02:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 26,
+          "scoreTotal": 26,
+          "seatsAvailable": 0,
+          "standingAvailable": 26,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 1.0,
+          "seatsAvailablePct": 0.0,
+          "standingAvailablePct": 100.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 86.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 63,
+          "rollingValid": 80,
+          "rollingMeanOrdinal": 0.7875
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T02:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 9,
+          "seatsAvailable": 18,
+          "standingAvailable": 9,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.3333333333333333,
+          "seatsAvailablePct": 66.66666666666666,
+          "standingAvailablePct": 33.33333333333333,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 48,
+          "rollingValid": 83,
+          "rollingMeanOrdinal": 0.5783132530120482
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T03:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 29,
+          "scoreTotal": 11,
+          "seatsAvailable": 18,
+          "standingAvailable": 11,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.3793103448275862,
+          "seatsAvailablePct": 62.06896551724138,
+          "standingAvailablePct": 37.93103448275862,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 96.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 46,
+          "rollingValid": 82,
+          "rollingMeanOrdinal": 0.5609756097560976
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T03:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 26,
+          "scoreTotal": 21,
+          "seatsAvailable": 5,
+          "standingAvailable": 21,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.8076923076923077,
+          "seatsAvailablePct": 19.230769230769234,
+          "standingAvailablePct": 80.76923076923077,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 86.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 41,
+          "rollingValid": 82,
+          "rollingMeanOrdinal": 0.5
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T04:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 26,
+          "scoreTotal": 17,
+          "seatsAvailable": 9,
+          "standingAvailable": 17,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.6538461538461539,
+          "seatsAvailablePct": 34.61538461538461,
+          "standingAvailablePct": 65.38461538461539,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 86.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 49,
+          "rollingValid": 81,
+          "rollingMeanOrdinal": 0.6049382716049383
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T04:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 15,
+          "seatsAvailable": 12,
+          "standingAvailable": 15,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.5555555555555556,
+          "seatsAvailablePct": 44.44444444444444,
+          "standingAvailablePct": 55.55555555555556,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 53,
+          "rollingValid": 79,
+          "rollingMeanOrdinal": 0.6708860759493671
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T05:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 21,
+          "seatsAvailable": 7,
+          "standingAvailable": 21,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.75,
+          "seatsAvailablePct": 25.0,
+          "standingAvailablePct": 75.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 53,
+          "rollingValid": 81,
+          "rollingMeanOrdinal": 0.654320987654321
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T05:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 9,
+          "seatsAvailable": 19,
+          "standingAvailable": 9,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.32142857142857145,
+          "seatsAvailablePct": 67.85714285714286,
+          "standingAvailablePct": 32.142857142857146,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 45,
+          "rollingValid": 83,
+          "rollingMeanOrdinal": 0.5421686746987951
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T06:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 8,
+          "seatsAvailable": 20,
+          "standingAvailable": 8,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.2857142857142857,
+          "seatsAvailablePct": 71.42857142857143,
+          "standingAvailablePct": 28.57142857142857,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 38,
+          "rollingValid": 84,
+          "rollingMeanOrdinal": 0.4523809523809524
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T06:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 0,
+          "seatsAvailable": 27,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 17,
+          "rollingValid": 83,
+          "rollingMeanOrdinal": 0.20481927710843373
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T07:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 0,
+          "seatsAvailable": 27,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 8,
+          "rollingValid": 82,
+          "rollingMeanOrdinal": 0.0975609756097561
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T07:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 25,
+          "scoreTotal": 9,
+          "seatsAvailable": 16,
+          "standingAvailable": 9,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.36,
+          "seatsAvailablePct": 64.0,
+          "standingAvailablePct": 36.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 83.33333333333334,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 9,
+          "rollingValid": 79,
+          "rollingMeanOrdinal": 0.11392405063291139
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T08:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 29,
+          "scoreTotal": 17,
+          "seatsAvailable": 12,
+          "standingAvailable": 17,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.5862068965517241,
+          "seatsAvailablePct": 41.37931034482759,
+          "standingAvailablePct": 58.620689655172406,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 96.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 26,
+          "rollingValid": 81,
+          "rollingMeanOrdinal": 0.32098765432098764
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T08:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 29,
+          "scoreTotal": 8,
+          "seatsAvailable": 21,
+          "standingAvailable": 8,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.27586206896551724,
+          "seatsAvailablePct": 72.41379310344827,
+          "standingAvailablePct": 27.586206896551722,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 96.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 34,
+          "rollingValid": 83,
+          "rollingMeanOrdinal": 0.40963855421686746
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T09:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 4,
+          "seatsAvailable": 23,
+          "standingAvailable": 4,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.14814814814814814,
+          "seatsAvailablePct": 85.18518518518519,
+          "standingAvailablePct": 14.814814814814813,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 29,
+          "rollingValid": 85,
+          "rollingMeanOrdinal": 0.3411764705882353
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T09:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 26,
+          "scoreTotal": 0,
+          "seatsAvailable": 26,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 86.66666666666667,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 12,
+          "rollingValid": 82,
+          "rollingMeanOrdinal": 0.14634146341463414
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T10:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 28,
+          "scoreTotal": 21,
+          "seatsAvailable": 7,
+          "standingAvailable": 21,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.75,
+          "seatsAvailablePct": 25.0,
+          "standingAvailablePct": 75.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 93.33333333333333,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 25,
+          "rollingValid": 81,
+          "rollingMeanOrdinal": 0.30864197530864196
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T10:30:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 30,
+          "validSamples": 27,
+          "scoreTotal": 11,
+          "seatsAvailable": 16,
+          "standingAvailable": 11,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.4074074074074074,
+          "seatsAvailablePct": 59.25925925925925,
+          "standingAvailablePct": 40.74074074074074,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 90.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 32,
+          "rollingValid": 81,
+          "rollingMeanOrdinal": 0.3950617283950617
+        },
+        {
+          "_id": {
+            "bucket": {
+              "$date": "2026-11-22T11:00:00Z"
+            },
+            "operator": "SBST"
+          },
+          "observations": 8,
+          "validSamples": 8,
+          "scoreTotal": 0,
+          "seatsAvailable": 8,
+          "standingAvailable": 0,
+          "limitedStanding": 0,
+          "meanCrowdingOrdinal": 0.0,
+          "seatsAvailablePct": 100.0,
+          "standingAvailablePct": 0.0,
+          "limitedStandingPct": 0.0,
+          "validSamplePct": 100.0,
+          "daysWithSamples": 1,
+          "daysWithValidSamples": 1,
+          "rollingScore": 32,
+          "rollingValid": 63,
+          "rollingMeanOrdinal": 0.5079365079365079
+        }
+      ],
+      "morningRows": [],
+      "mongoExplain": {
+        "explainVersion": "1",
+        "stages": [
+          {
+            "$cursor": {
+              "queryPlanner": {
+                "namespace": "wheredabus.system.buckets.arrival_observations",
+                "indexFilterSet": false,
+                "parsedQuery": {
+                  "$and": [
+                    {
+                      "meta.serviceNo": {
+                        "$eq": "70M"
+                      }
+                    },
+                    {
+                      "meta.stopCode": {
+                        "$eq": "66359"
+                      }
+                    },
+                    {
+                      "_id": {
+                        "$lt": {
+                          "$oid": "6b02ccef0000000000000000"
+                        }
+                      }
+                    },
+                    {
+                      "_id": {
+                        "$gte": {
+                          "$oid": "6afed86d0000000000000000"
+                        }
+                      }
+                    },
+                    {
+                      "control.max.observedAt": {
+                        "$_internalExprGte": {
+                          "$date": "2026-11-20T11:07:25.452Z"
+                        }
+                      }
+                    },
+                    {
+                      "control.min.observedAt": {
+                        "$_internalExprGte": {
+                          "$date": "2026-11-19T11:07:25.452Z"
+                        }
+                      }
+                    },
+                    {
+                      "control.max.observedAt": {
+                        "$_internalExprLt": {
+                          "$date": "2026-11-23T11:07:26.452Z"
+                        }
+                      }
+                    },
+                    {
+                      "control.min.observedAt": {
+                        "$_internalExprLt": {
+                          "$date": "2026-11-22T11:07:26.452Z"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "queryHash": "8551CD6C",
+                "planCacheKey": "23921A4F",
+                "optimizationTimeMillis": 0,
+                "maxIndexedOrSolutionsReached": false,
+                "maxIndexedAndSolutionsReached": false,
+                "maxScansToExplodeReached": false,
+                "winningPlan": {
+                  "stage": "FETCH",
+                  "filter": {
+                    "$and": [
+                      {
+                        "_id": {
+                          "$lt": {
+                            "$oid": "6b02ccef0000000000000000"
+                          }
+                        }
+                      },
+                      {
+                        "_id": {
+                          "$gte": {
+                            "$oid": "6afed86d0000000000000000"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "inputStage": {
+                    "stage": "IXSCAN",
+                    "keyPattern": {
+                      "meta.serviceNo": 1,
+                      "meta.stopCode": 1,
+                      "control.min.observedAt": 1,
+                      "control.max.observedAt": 1
+                    },
+                    "indexName": "service_stop_time",
+                    "isMultiKey": false,
+                    "multiKeyPaths": {
+                      "meta.serviceNo": [],
+                      "meta.stopCode": [],
+                      "control.min.observedAt": [],
+                      "control.max.observedAt": []
+                    },
+                    "isUnique": false,
+                    "isSparse": false,
+                    "isPartial": false,
+                    "indexVersion": 2,
+                    "direction": "forward",
+                    "indexBounds": {
+                      "meta.serviceNo": [
+                        "[\"70M\", \"70M\"]"
+                      ],
+                      "meta.stopCode": [
+                        "[\"66359\", \"66359\"]"
+                      ],
+                      "control.min.observedAt": [
+                        "[new Date(1795086445452), new Date(1795345646452))"
+                      ],
+                      "control.max.observedAt": [
+                        "[new Date(1795172845452), new Date(1795432046452))"
+                      ]
+                    }
+                  }
+                },
+                "rejectedPlans": [
+                  {
+                    "stage": "FETCH",
+                    "filter": {
+                      "$and": [
+                        {
+                          "_id": {
+                            "$lt": {
+                              "$oid": "6b02ccef0000000000000000"
+                            }
+                          }
+                        },
+                        {
+                          "_id": {
+                            "$gte": {
+                              "$oid": "6afed86d0000000000000000"
+                            }
+                          }
+                        },
+                        {
+                          "meta.serviceNo": {
+                            "$eq": "70M"
+                          }
+                        }
+                      ]
+                    },
+                    "inputStage": {
+                      "stage": "IXSCAN",
+                      "keyPattern": {
+                        "meta.stopCode": 1,
+                        "control.max.observedAt": -1,
+                        "control.min.observedAt": -1
+                      },
+                      "indexName": "stop_time",
+                      "isMultiKey": false,
+                      "multiKeyPaths": {
+                        "meta.stopCode": [],
+                        "control.max.observedAt": [],
+                        "control.min.observedAt": []
+                      },
+                      "isUnique": false,
+                      "isSparse": false,
+                      "isPartial": false,
+                      "indexVersion": 2,
+                      "direction": "forward",
+                      "indexBounds": {
+                        "meta.stopCode": [
+                          "[\"66359\", \"66359\"]"
+                        ],
+                        "control.max.observedAt": [
+                          "(new Date(1795432046452), new Date(1795172845452)]"
+                        ],
+                        "control.min.observedAt": [
+                          "(new Date(1795345646452), new Date(1795086445452)]"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "stage": "CLUSTERED_IXSCAN",
+                    "filter": {
+                      "$and": [
+                        {
+                          "meta.serviceNo": {
+                            "$eq": "70M"
+                          }
+                        },
+                        {
+                          "meta.stopCode": {
+                            "$eq": "66359"
+                          }
+                        },
+                        {
+                          "_id": {
+                            "$lt": {
+                              "$oid": "6b02ccef0000000000000000"
+                            }
+                          }
+                        },
+                        {
+                          "_id": {
+                            "$gte": {
+                              "$oid": "6afed86d0000000000000000"
+                            }
+                          }
+                        },
+                        {
+                          "control.max.observedAt": {
+                            "$_internalExprGte": {
+                              "$date": "2026-11-20T11:07:25.452Z"
+                            }
+                          }
+                        },
+                        {
+                          "control.min.observedAt": {
+                            "$_internalExprGte": {
+                              "$date": "2026-11-19T11:07:25.452Z"
+                            }
+                          }
+                        },
+                        {
+                          "control.max.observedAt": {
+                            "$_internalExprLt": {
+                              "$date": "2026-11-23T11:07:26.452Z"
+                            }
+                          }
+                        },
+                        {
+                          "control.min.observedAt": {
+                            "$_internalExprLt": {
+                              "$date": "2026-11-22T11:07:26.452Z"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    "direction": "forward",
+                    "minRecord": {
+                      "$oid": "6afed86d0000000000000000"
+                    },
+                    "maxRecord": {
+                      "$oid": "6b02ccef0000000000000000"
+                    }
+                  }
+                ]
+              },
+              "executionStats": {
+                "executionSuccess": true,
+                "nReturned": 144,
+                "executionTimeMillis": 9,
+                "totalKeysExamined": 145,
+                "totalDocsExamined": 144,
+                "executionStages": {
+                  "stage": "FETCH",
+                  "filter": {
+                    "$and": [
+                      {
+                        "_id": {
+                          "$lt": {
+                            "$oid": "6b02ccef0000000000000000"
+                          }
+                        }
+                      },
+                      {
+                        "_id": {
+                          "$gte": {
+                            "$oid": "6afed86d0000000000000000"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "nReturned": 144,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 145,
+                  "advanced": 144,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 1,
+                  "restoreState": 1,
+                  "isEOF": 1,
+                  "docsExamined": 144,
+                  "alreadyHasObj": 0,
+                  "inputStage": {
+                    "stage": "IXSCAN",
+                    "nReturned": 144,
+                    "executionTimeMillisEstimate": 0,
+                    "works": 145,
+                    "advanced": 144,
+                    "needTime": 0,
+                    "needYield": 0,
+                    "saveState": 1,
+                    "restoreState": 1,
+                    "isEOF": 1,
+                    "keyPattern": {
+                      "meta.serviceNo": 1,
+                      "meta.stopCode": 1,
+                      "control.min.observedAt": 1,
+                      "control.max.observedAt": 1
+                    },
+                    "indexName": "service_stop_time",
+                    "isMultiKey": false,
+                    "multiKeyPaths": {
+                      "meta.serviceNo": [],
+                      "meta.stopCode": [],
+                      "control.min.observedAt": [],
+                      "control.max.observedAt": []
+                    },
+                    "isUnique": false,
+                    "isSparse": false,
+                    "isPartial": false,
+                    "indexVersion": 2,
+                    "direction": "forward",
+                    "indexBounds": {
+                      "meta.serviceNo": [
+                        "[\"70M\", \"70M\"]"
+                      ],
+                      "meta.stopCode": [
+                        "[\"66359\", \"66359\"]"
+                      ],
+                      "control.min.observedAt": [
+                        "[new Date(1795086445452), new Date(1795345646452))"
+                      ],
+                      "control.max.observedAt": [
+                        "[new Date(1795172845452), new Date(1795432046452))"
+                      ]
+                    },
+                    "keysExamined": 145,
+                    "seeks": 1,
+                    "dupsTested": 0,
+                    "dupsDropped": 0
+                  }
+                }
+              }
+            },
+            "nReturned": 144,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$_internalUnpackBucket": {
+              "exclude": [],
+              "timeField": "observedAt",
+              "metaField": "meta",
+              "bucketMaxSpanSeconds": 86400,
+              "assumeNoMixedSchemaData": true,
+              "wholeBucketFilter": {
+                "$and": [
+                  {
+                    "control.min.observedAt": {
+                      "$gte": {
+                        "$date": "2026-11-20T11:07:25.452Z"
+                      }
+                    }
+                  },
+                  {
+                    "control.max.observedAt": {
+                      "$lt": {
+                        "$date": "2026-11-22T11:07:26.452Z"
+                      }
+                    }
+                  }
+                ]
+              },
+              "eventFilter": {
+                "$and": [
+                  {
+                    "observedAt": {
+                      "$gte": {
+                        "$date": "2026-11-20T11:07:25.452Z"
+                      }
+                    }
+                  },
+                  {
+                    "observedAt": {
+                      "$lt": {
+                        "$date": "2026-11-22T11:07:26.452Z"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "nReturned": 1032,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$group": {
+              "_id": "$logicalKey",
+              "doc": {
+                "$first": "$$ROOT"
+              }
+            },
+            "maxAccumulatorMemoryUsageBytes": {
+              "doc": 2405887
+            },
+            "totalOutputDataSizeBytes": 2666983,
+            "usedDisk": false,
+            "spills": 0,
+            "spilledDataStorageSize": 0,
+            "numBytesSpilledEstimate": 0,
+            "spilledRecords": 0,
+            "nReturned": 1032,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$replaceRoot": {
+              "newRoot": "$doc"
+            },
+            "nReturned": 1032,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$unwind": {
+              "path": "$arrivals"
+            },
+            "nReturned": 3096,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$match": {
+              "arrivals.rank": {
+                "$eq": 1
+              }
+            },
+            "nReturned": 1032,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$set": {
+              "localDate": {
+                "$dateToString": {
+                  "date": "$observedAt",
+                  "format": {
+                    "$const": "%Y-%m-%d"
+                  },
+                  "timezone": {
+                    "$const": "Asia/Singapore"
+                  }
+                }
+              },
+              "eligible": {
+                "$and": [
+                  {
+                    "$eq": [
+                      "$arrivals.monitored",
+                      {
+                        "$const": 1
+                      }
+                    ]
+                  },
+                  {
+                    "$ne": [
+                      "$arrivals.eta",
+                      {
+                        "$const": null
+                      }
+                    ]
+                  },
+                  {
+                    "$gte": [
+                      "$arrivals.etaSeconds",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$lte": [
+                      "$arrivals.etaSeconds",
+                      {
+                        "$const": 1800
+                      }
+                    ]
+                  },
+                  {
+                    "$in": [
+                      "$arrivals.load",
+                      {
+                        "$const": [
+                          "SEA",
+                          "SDA",
+                          "LSD"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "nReturned": 1032,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$set": {
+              "bucket": {
+                "$dateTrunc": {
+                  "date": "$observedAt",
+                  "unit": {
+                    "$const": "minute"
+                  },
+                  "binSize": {
+                    "$const": 30
+                  },
+                  "timezone": {
+                    "$const": "Asia/Singapore"
+                  }
+                }
+              }
+            },
+            "nReturned": 1032,
+            "executionTimeMillisEstimate": 1
+          },
+          {
+            "$group": {
+              "_id": {
+                "bucket": "$bucket",
+                "operator": "$meta.operator"
+              },
+              "observations": {
+                "$sum": {
+                  "$const": 1
+                }
+              },
+              "validSamples": {
+                "$sum": {
+                  "$cond": [
+                    "$eligible",
+                    {
+                      "$const": 1
+                    },
+                    {
+                      "$const": 0
+                    }
+                  ]
+                }
+              },
+              "scoreTotal": {
+                "$sum": {
+                  "$cond": [
+                    "$eligible",
+                    "$arrivals.loadScore",
+                    {
+                      "$const": 0
+                    }
+                  ]
+                }
+              },
+              "seatsAvailable": {
+                "$sum": {
+                  "$cond": [
+                    {
+                      "$and": [
+                        "$eligible",
+                        {
+                          "$eq": [
+                            "$arrivals.load",
+                            {
+                              "$const": "SEA"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$const": 1
+                    },
+                    {
+                      "$const": 0
+                    }
+                  ]
+                }
+              },
+              "standingAvailable": {
+                "$sum": {
+                  "$cond": [
+                    {
+                      "$and": [
+                        "$eligible",
+                        {
+                          "$eq": [
+                            "$arrivals.load",
+                            {
+                              "$const": "SDA"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$const": 1
+                    },
+                    {
+                      "$const": 0
+                    }
+                  ]
+                }
+              },
+              "limitedStanding": {
+                "$sum": {
+                  "$cond": [
+                    {
+                      "$and": [
+                        "$eligible",
+                        {
+                          "$eq": [
+                            "$arrivals.load",
+                            {
+                              "$const": "LSD"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "$const": 1
+                    },
+                    {
+                      "$const": 0
+                    }
+                  ]
+                }
+              },
+              "sampleDates": {
+                "$addToSet": "$localDate"
+              },
+              "validDates": {
+                "$addToSet": {
+                  "$cond": [
+                    "$eligible",
+                    "$localDate",
+                    {
+                      "$const": null
+                    }
+                  ]
+                }
+              }
+            },
+            "maxAccumulatorMemoryUsageBytes": {
+              "observations": 3552,
+              "validSamples": 3552,
+              "scoreTotal": 3552,
+              "seatsAvailable": 3552,
+              "standingAvailable": 3552,
+              "limitedStanding": 3552,
+              "sampleDates": 4440,
+              "validDates": 5000
+            },
+            "totalOutputDataSizeBytes": 37042,
+            "usedDisk": false,
+            "spills": 0,
+            "spilledDataStorageSize": 0,
+            "numBytesSpilledEstimate": 0,
+            "spilledRecords": 0,
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          },
+          {
+            "$set": {
+              "meanCrowdingOrdinal": {
+                "$cond": [
+                  {
+                    "$gt": [
+                      "$validSamples",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$multiply": [
+                      {
+                        "$const": 1
+                      },
+                      {
+                        "$divide": [
+                          "$scoreTotal",
+                          "$validSamples"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$const": null
+                  }
+                ]
+              },
+              "seatsAvailablePct": {
+                "$cond": [
+                  {
+                    "$gt": [
+                      "$validSamples",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$multiply": [
+                      {
+                        "$const": 100
+                      },
+                      {
+                        "$divide": [
+                          "$seatsAvailable",
+                          "$validSamples"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$const": null
+                  }
+                ]
+              },
+              "standingAvailablePct": {
+                "$cond": [
+                  {
+                    "$gt": [
+                      "$validSamples",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$multiply": [
+                      {
+                        "$const": 100
+                      },
+                      {
+                        "$divide": [
+                          "$standingAvailable",
+                          "$validSamples"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$const": null
+                  }
+                ]
+              },
+              "limitedStandingPct": {
+                "$cond": [
+                  {
+                    "$gt": [
+                      "$validSamples",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$multiply": [
+                      {
+                        "$const": 100
+                      },
+                      {
+                        "$divide": [
+                          "$limitedStanding",
+                          "$validSamples"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$const": null
+                  }
+                ]
+              },
+              "validSamplePct": {
+                "$cond": [
+                  {
+                    "$gt": [
+                      "$observations",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$multiply": [
+                      {
+                        "$const": 100
+                      },
+                      {
+                        "$divide": [
+                          "$validSamples",
+                          "$observations"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$const": null
+                  }
+                ]
+              },
+              "daysWithSamples": {
+                "$size": [
+                  "$sampleDates"
+                ]
+              },
+              "daysWithValidSamples": {
+                "$size": [
+                  {
+                    "$setDifference": [
+                      "$validDates",
+                      {
+                        "$const": [
+                          null
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          },
+          {
+            "$sort": {
+              "sortKey": {
+                "_id.operator": 1,
+                "_id.bucket": 1
+              }
+            },
+            "totalDataSizeSortedBytesEstimate": 58946,
+            "usedDisk": false,
+            "spills": 0,
+            "spilledDataStorageSize": 0,
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          },
+          {
+            "$_internalSetWindowFields": {
+              "partitionBy": "$_id.operator",
+              "sortBy": {
+                "_id.bucket": 1
+              },
+              "output": {
+                "rollingScore": {
+                  "$sum": "$scoreTotal",
+                  "window": {
+                    "documents": [
+                      -2,
+                      0
+                    ]
+                  }
+                },
+                "rollingValid": {
+                  "$sum": "$validSamples",
+                  "window": {
+                    "documents": [
+                      -2,
+                      0
+                    ]
+                  }
+                }
+              }
+            },
+            "maxFunctionMemoryUsageBytes": {
+              "rollingScore": 232,
+              "rollingValid": 232
+            },
+            "maxTotalMemoryUsageBytes": 3476,
+            "usedDisk": false,
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          },
+          {
+            "$set": {
+              "rollingMeanOrdinal": {
+                "$cond": [
+                  {
+                    "$gt": [
+                      "$rollingValid",
+                      {
+                        "$const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "$multiply": [
+                      {
+                        "$const": 1
+                      },
+                      {
+                        "$divide": [
+                          "$rollingScore",
+                          "$rollingValid"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "$const": null
+                  }
+                ]
+              }
+            },
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          },
+          {
+            "$project": {
+              "sampleDates": false,
+              "validDates": false,
+              "_id": true
+            },
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          },
+          {
+            "$sort": {
+              "sortKey": {
+                "_id.bucket": 1,
+                "_id.operator": 1
+              }
+            },
+            "totalDataSizeSortedBytesEstimate": 54242,
+            "usedDisk": false,
+            "spills": 0,
+            "spilledDataStorageSize": 0,
+            "nReturned": 37,
+            "executionTimeMillisEstimate": 4
+          }
+        ],
+        "serverInfo": {
+          "host": "94825f1d4b45",
+          "port": 27017,
+          "version": "7.0.43",
+          "gitVersion": "ef5a7d3480b59feae13d564376129fc4ceee6177"
+        },
+        "serverParameters": {
+          "internalQueryFacetBufferSizeBytes": 104857600,
+          "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+          "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+          "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+          "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+          "internalQueryProhibitBlockingMergeOnMongoS": 0,
+          "internalQueryMaxAddToSetBytes": 104857600,
+          "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+          "internalQueryFrameworkControl": "forceClassicEngine"
+        },
+        "command": {
+          "aggregate": "system.buckets.arrival_observations",
+          "pipeline": [
+            {
+              "$_internalUnpackBucket": {
+                "timeField": "observedAt",
+                "metaField": "meta",
+                "bucketMaxSpanSeconds": 86400,
+                "assumeNoMixedSchemaData": true,
+                "usesExtendedRange": false
+              }
+            },
+            {
+              "$match": {
+                "meta.serviceNo": "70M",
+                "observedAt": {
+                  "$gte": {
+                    "$date": "2026-11-20T11:07:25.452Z"
+                  },
+                  "$lt": {
+                    "$date": "2026-11-22T11:07:26.452Z"
+                  }
+                },
+                "meta.stopCode": "66359"
+              }
+            },
+            {
+              "$group": {
+                "_id": "$logicalKey",
+                "doc": {
+                  "$first": "$$ROOT"
+                }
+              }
+            },
+            {
+              "$replaceRoot": {
+                "newRoot": "$doc"
+              }
+            },
+            {
+              "$unwind": "$arrivals"
+            },
+            {
+              "$match": {
+                "arrivals.rank": 1
+              }
+            },
+            {
+              "$set": {
+                "localDate": {
+                  "$dateToString": {
+                    "date": "$observedAt",
+                    "format": "%Y-%m-%d",
+                    "timezone": "Asia/Singapore"
+                  }
+                },
+                "eligible": {
+                  "$and": [
+                    {
+                      "$eq": [
+                        "$arrivals.monitored",
+                        1
+                      ]
+                    },
+                    {
+                      "$ne": [
+                        "$arrivals.eta",
+                        null
+                      ]
+                    },
+                    {
+                      "$gte": [
+                        "$arrivals.etaSeconds",
+                        0
+                      ]
+                    },
+                    {
+                      "$lte": [
+                        "$arrivals.etaSeconds",
+                        1800
+                      ]
+                    },
+                    {
+                      "$in": [
+                        "$arrivals.load",
+                        [
+                          "SEA",
+                          "SDA",
+                          "LSD"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "$set": {
+                "bucket": {
+                  "$dateTrunc": {
+                    "date": "$observedAt",
+                    "unit": "minute",
+                    "binSize": 30,
+                    "timezone": "Asia/Singapore"
+                  }
+                }
+              }
+            },
+            {
+              "$group": {
+                "_id": {
+                  "bucket": "$bucket",
+                  "operator": "$meta.operator"
+                },
+                "observations": {
+                  "$sum": 1
+                },
+                "validSamples": {
+                  "$sum": {
+                    "$cond": [
+                      "$eligible",
+                      1,
+                      0
+                    ]
+                  }
+                },
+                "scoreTotal": {
+                  "$sum": {
+                    "$cond": [
+                      "$eligible",
+                      "$arrivals.loadScore",
+                      0
+                    ]
+                  }
+                },
+                "seatsAvailable": {
+                  "$sum": {
+                    "$cond": [
+                      {
+                        "$and": [
+                          "$eligible",
+                          {
+                            "$eq": [
+                              "$arrivals.load",
+                              "SEA"
+                            ]
+                          }
+                        ]
+                      },
+                      1,
+                      0
+                    ]
+                  }
+                },
+                "standingAvailable": {
+                  "$sum": {
+                    "$cond": [
+                      {
+                        "$and": [
+                          "$eligible",
+                          {
+                            "$eq": [
+                              "$arrivals.load",
+                              "SDA"
+                            ]
+                          }
+                        ]
+                      },
+                      1,
+                      0
+                    ]
+                  }
+                },
+                "limitedStanding": {
+                  "$sum": {
+                    "$cond": [
+                      {
+                        "$and": [
+                          "$eligible",
+                          {
+                            "$eq": [
+                              "$arrivals.load",
+                              "LSD"
+                            ]
+                          }
+                        ]
+                      },
+                      1,
+                      0
+                    ]
+                  }
+                },
+                "sampleDates": {
+                  "$addToSet": "$localDate"
+                },
+                "validDates": {
+                  "$addToSet": {
+                    "$cond": [
+                      "$eligible",
+                      "$localDate",
+                      null
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$set": {
+                "meanCrowdingOrdinal": {
+                  "$cond": [
+                    {
+                      "$gt": [
+                        "$validSamples",
+                        0
+                      ]
+                    },
+                    {
+                      "$multiply": [
+                        1,
+                        {
+                          "$divide": [
+                            "$scoreTotal",
+                            "$validSamples"
+                          ]
+                        }
+                      ]
+                    },
+                    null
+                  ]
+                },
+                "seatsAvailablePct": {
+                  "$cond": [
+                    {
+                      "$gt": [
+                        "$validSamples",
+                        0
+                      ]
+                    },
+                    {
+                      "$multiply": [
+                        100,
+                        {
+                          "$divide": [
+                            "$seatsAvailable",
+                            "$validSamples"
+                          ]
+                        }
+                      ]
+                    },
+                    null
+                  ]
+                },
+                "standingAvailablePct": {
+                  "$cond": [
+                    {
+                      "$gt": [
+                        "$validSamples",
+                        0
+                      ]
+                    },
+                    {
+                      "$multiply": [
+                        100,
+                        {
+                          "$divide": [
+                            "$standingAvailable",
+                            "$validSamples"
+                          ]
+                        }
+                      ]
+                    },
+                    null
+                  ]
+                },
+                "limitedStandingPct": {
+                  "$cond": [
+                    {
+                      "$gt": [
+                        "$validSamples",
+                        0
+                      ]
+                    },
+                    {
+                      "$multiply": [
+                        100,
+                        {
+                          "$divide": [
+                            "$limitedStanding",
+                            "$validSamples"
+                          ]
+                        }
+                      ]
+                    },
+                    null
+                  ]
+                },
+                "validSamplePct": {
+                  "$cond": [
+                    {
+                      "$gt": [
+                        "$observations",
+                        0
+                      ]
+                    },
+                    {
+                      "$multiply": [
+                        100,
+                        {
+                          "$divide": [
+                            "$validSamples",
+                            "$observations"
+                          ]
+                        }
+                      ]
+                    },
+                    null
+                  ]
+                },
+                "daysWithSamples": {
+                  "$size": "$sampleDates"
+                },
+                "daysWithValidSamples": {
+                  "$size": {
+                    "$setDifference": [
+                      "$validDates",
+                      [
+                        null
+                      ]
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "$setWindowFields": {
+                "partitionBy": "$_id.operator",
+                "sortBy": {
+                  "_id.bucket": 1
+                },
+                "output": {
+                  "rollingScore": {
+                    "$sum": "$scoreTotal",
+                    "window": {
+                      "documents": [
+                        -2,
+                        0
+                      ]
+                    }
+                  },
+                  "rollingValid": {
+                    "$sum": "$validSamples",
+                    "window": {
+                      "documents": [
+                        -2,
+                        0
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "$set": {
+                "rollingMeanOrdinal": {
+                  "$cond": [
+                    {
+                      "$gt": [
+                        "$rollingValid",
+                        0
+                      ]
+                    },
+                    {
+                      "$multiply": [
+                        1,
+                        {
+                          "$divide": [
+                            "$rollingScore",
+                            "$rollingValid"
+                          ]
+                        }
+                      ]
+                    },
+                    null
+                  ]
+                }
+              }
+            },
+            {
+              "$unset": [
+                "sampleDates",
+                "validDates"
+              ]
+            },
+            {
+              "$sort": {
+                "_id.bucket": 1,
+                "_id.operator": 1
+              }
+            }
+          ],
+          "cursor": {},
+          "allowDiskUse": true,
+          "maxTimeMS": 15000,
+          "collation": {
+            "locale": "simple"
+          }
+        },
+        "ok": 1.0
+      }
+    }
+  },
+  "errors": [],
+  "finishedAtUtc": {
+    "$date": "2026-11-22T11:07:35.997Z"
+  },
+  "status": "completed"
+}

@@ -1,0 +1,7 @@
+# Keep the release checksums valid on Windows, macOS and Linux.
+WhereDaBusSG/** -text
+*.zip binary
+*.pdf binary
+*.docx binary
+*.pptx binary
+*.png binary

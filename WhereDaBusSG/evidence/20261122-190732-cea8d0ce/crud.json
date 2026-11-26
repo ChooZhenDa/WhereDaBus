@@ -1,0 +1,77 @@
+{
+  "evidenceVersion": 1,
+  "mode": "crud",
+  "startedAtUtc": {
+    "$date": "2026-11-22T11:07:34.114Z"
+  },
+  "python": "3.12.16",
+  "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "results": {
+    "sql": {
+      "status": "passed",
+      "tables": [
+        "transport.users",
+        "transport.favourite_routes"
+      ],
+      "steps": [
+        {
+          "operation": "CREATE and READ",
+          "value": "SYNTHETIC CRUD PROOF",
+          "favourites": 1
+        },
+        {
+          "operation": "UPDATE and READ",
+          "value": "UPDATED SYNTHETIC PROOF"
+        },
+        {
+          "operation": "duplicate favourite rejected",
+          "passed": true
+        },
+        {
+          "operation": "missing user rejected",
+          "passed": true
+        },
+        {
+          "operation": "DELETE and READ",
+          "remainingFavourites": 0
+        },
+        {
+          "operation": "ON DELETE CASCADE",
+          "remainingFavourites": 0
+        }
+      ],
+      "cleanup": "Transaction rolled back; no synthetic rows retained",
+      "scope": "Database demonstration, not a GUI account feature"
+    },
+    "mongo": {
+      "status": "passed",
+      "database": "wheredabus_evidence",
+      "collection": "crud_proofs",
+      "steps": [
+        {
+          "operation": "CREATE and READ",
+          "load": "SEA"
+        },
+        {
+          "operation": "UPDATE and READ",
+          "load": "SDA"
+        },
+        {
+          "operation": "duplicate _id rejected",
+          "passed": true
+        },
+        {
+          "operation": "DELETE and READ",
+          "remaining": 0
+        }
+      ],
+      "cleanup": "Only this run's synthetic document removed; empty collection/index retained",
+      "scope": "Ordinary demonstration collection; production time-series measurements are not edited"
+    }
+  },
+  "errors": [],
+  "finishedAtUtc": {
+    "$date": "2026-11-22T11:07:34.456Z"
+  },
+  "status": "completed"
+}

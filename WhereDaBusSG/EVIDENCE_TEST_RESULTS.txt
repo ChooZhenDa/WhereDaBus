@@ -1,0 +1,28 @@
+EVIDENCE UPGRADE — VALIDATION STATUS
+Prepared 16 November 2026 on Windows / PowerShell.
+
+CURRENT CHECKS
+- Original Python suite: 239 passed.
+- New evidence tests: 9 passed (timing calculation, missing/future history,
+  failure cleanup, rollback invocation, error redaction).
+- New Windows launcher checks: 5 passed using a fake Docker command.
+- Submission exporter checks: 2 passed using synthetic test exports:
+  empty history rejected; old exported packages can be re-exported;
+  ZIP contains fresh test data and excludes .env.
+- JavaScript domain/UI checks: 38 passed.
+- Installer preflight/application scenarios are recorded in the outer
+  package's VALIDATION.txt after packaging.
+- Report PDF: 12 total pages, comprising cover + 9 body + references + appendix.
+  Body font Calibri 12. Rendered pages visually checked.
+- PowerPoint: 14 editable slides (12 main + 2 appendix), 540-second main script;
+  notes and shape bounds checked. Actual PowerPoint rendering not run here.
+
+LIMITS
+Docker Desktop's Linux engine was unavailable in this environment. No new
+real-PostgreSQL/MongoDB execution, production timings, live LTA call, data
+export from the user's running installation, or clean-install result is claimed.
+Mocked failure tests are not evidence that a database engine enforces a constraint.
+Run Collect-Evidence.cmd on the existing installation and inspect every stage.
+The existing tests/integration.py also requires empty isolated *_test databases.
+No test fixtures or synthetic CRUD records should be described as real LTA data.
+

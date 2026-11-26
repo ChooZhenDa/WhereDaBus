@@ -1,0 +1,82 @@
+{
+  "testedAt": "2026-11-26T02:18:42+08:00",
+  "environment": "Fresh isolated review installation from the submission source ZIP. No LTA API key.",
+  "web": {
+    "homePage": 200,
+    "directRouteSearch": true,
+    "trendView": true,
+    "savedJourneysView": true
+  },
+  "directRoutes": {
+    "origin": "59059",
+    "destination": "59009",
+    "columns": [
+      "service",
+      "direction",
+      "stopsAfterBoarding",
+      "distanceKm"
+    ],
+    "rows": [
+      [
+        "860",
+        1,
+        12,
+        4.6
+      ],
+      [
+        "860T",
+        1,
+        12,
+        4.6
+      ],
+      [
+        "857",
+        1,
+        61,
+        42.0
+      ]
+    ]
+  },
+  "trend": {
+    "stop": "66359",
+    "service": "70M",
+    "dateSingapore": "2026-11-22",
+    "nonemptyBins": 34,
+    "rankOneReadings": 965,
+    "eligibleReadings": 877,
+    "at1000": {
+      "_id": {
+        "bucket": "2026-11-22T02:00:00+00:00",
+        "operator": "SBST"
+      },
+      "observations": 30,
+      "validSamples": 26,
+      "scoreTotal": 26,
+      "seatsAvailable": 0,
+      "standingAvailable": 26,
+      "limitedStanding": 0,
+      "meanCrowdingOrdinal": 1.0,
+      "seatsAvailablePct": 0.0,
+      "standingAvailablePct": 100.0,
+      "limitedStandingPct": 0.0,
+      "validSamplePct": 86.66666666666667,
+      "daysWithSamples": 1,
+      "daysWithValidSamples": 1,
+      "rollingScore": 63,
+      "rollingValid": 80,
+      "rollingMeanOrdinal": 0.7875
+    }
+  },
+  "savedJourneyCrud": {
+    "initialCount": 0,
+    "createStatus": 201,
+    "listAfterCreate": 1,
+    "duplicateCreateStatus": 409,
+    "differentBrowserListCount": 0,
+    "differentBrowserRenameStatus": 404,
+    "ownerRenameStatus": 200,
+    "labelAfterRename": "Review complete",
+    "ownerDeleteStatus": 204,
+    "finalCount": 0
+  }
+}

@@ -1,0 +1,161 @@
+WHERE DABUS SG - ANALYTICS UI UPGRADE 1.4.0
+Prepared 16 November 2026 for the existing standalone R2 application.
+
+INSTALL INTO YOUR EXISTING APPLICATION
+
+1. Keep Docker Desktop and your existing app running.
+2. Extract the entire upgrade ZIP. Move the WhereDaBusSG_UI_Upgrade folder
+   inside the application folder containing compose.yaml, .env and Start.cmd.
+   Open that upgrade folder and double-click Apply-Upgrade.cmd.
+   Do not move only the CMD file; it needs its PS1, manifest and files folder.
+3. Wait until the window says Upgrade complete. It opens the existing app's
+   address, using APP_PORT from .env. Press Ctrl+F5 to refresh cached files.
+
+The installer verifies original source hashes before replacing files. It backs
+up changed source files under upgrade-backups, adds new files to FILE_MANIFEST
+for your submission exporter, rebuilds api, and recreates only api.
+The website may be briefly unavailable while api is recreated. The sampler,
+PostgreSQL and MongoDB containers are not restarted. No database migrations,
+imports or resets are performed. Your .env and compose.yaml remain unchanged,
+including any MongoDB Compass port mapping you have already added.
+
+Do not run a fresh Setup or copy this into a new application to upgrade your
+current database. The patch depends on your existing project and data volumes.
+This ZIP is an update package, not your final source-and-data submission.
+
+WHAT WAS ADDED
+
+Page                 Backend endpoint       Database
+Morning crowding      /analytics/peak        MongoDB historical aggregation
+Half-hour trends      /analytics/trend       MongoDB aggregation and window
+Longest routes        /routes/longest        PostgreSQL route summary query
+
+The analytics pages have stop/service suggestions, inclusive Singapore date
+filters, date presets, valid-sample counts, charts and CSV/JSON downloads.
+The API now accepts date_from and date_to together (YYYY-MM-DD). Both dates
+are included, up to 31 calendar days. Today is clipped to the current time.
+Omitting both dates preserves the previous seven completed days behaviour.
+Errors and empty history stay visible; they do not switch to synthetic data.
+Changing filters or modes clears old results and cancels pending requests.
+
+FIRST CHECK USING YOUR COLLECTOR
+
+1. Choose Live data, then Half-hour trends.
+2. Choose one of your sampled stops: 22599, 44181 or 65069.
+3. Choose a service that actually appears at that stop. Suggestions use the
+   imported stop/service network; they are not proof of stored observations.
+4. Choose Today so far and Show trend. You should see observed half-hour
+   periods if the collector stored matching observations today.
+5. Download JSON or CSV and inspect the query dates, stop, service, counts and
+   source label. These downloads are analysis results, not full DB backups.
+6. Try Morning crowding with dates that include a weekday morning when your
+   sampler was running. It only includes 07:00-08:59 Singapore time.
+
+If you started collection around noon, an empty morning report today is
+expected. Keep collecting through the next weekday morning. Do not change
+timestamps or call demo results real evidence. Data before collection began
+cannot be recovered by this application.
+
+If trends are empty, check the selected service, dates, collector and MongoDB:
+Open PowerShell in the existing application folder, then run:
+  docker compose --env-file .env --profile analytics ps
+  docker compose --env-file .env --profile analytics logs --tail 30 sampler
+If the sampler is stopped and you want to resume your saved configuration:
+  docker compose --env-file .env --profile analytics up -d sampler
+
+Closing PowerShell or the browser does not stop detached Docker containers.
+Keep the computer awake, online and Docker Desktop running to collect samples.
+Sleep, shutdown or stopping Docker interrupts collection; it does not backfill.
+
+HOW TO READ THE RESULTS
+
+Each historical observation is a sampled provider prediction. The analysis
+uses the first predicted bus and deduplicates replays by logicalKey. A valid
+crowding sample requires monitored=1, a known load and ETA within 0-30 minutes.
+Scores: SEA=0 (seats available), SDA=1 (standing available), LSD=2 (limited
+standing). Mean score is ordinal, not passenger count or occupancy percent.
+Valid sample percentage is the share of observations eligible for analysis.
+Missing/unknown scores stay missing rather than becoming zero. A real score
+of zero remains zero. Operators are kept separate. Charts break across gaps.
+The rolling trend weights sample counts in the current and two preceding
+observed bins; a gap means this need not span exactly 90 elapsed minutes.
+On narrow screens, scroll the chart or table horizontally to see all columns.
+
+Longest routes ranks at most ten service directions by recorded route distance.
+Directions with detected sequence gaps are excluded. No detected gaps does not
+prove the provider supplied every stop. This is not a fare or journey-time list.
+
+PRESENTATION WALKTHROUGH (ABOUT 3 MINUTES WITHIN YOUR TEAM'S VIDEO)
+
+1. Architecture (20s): DataMall supplies data. Backend code calls DataMall and
+   writes to databases. PostgreSQL holds the relational stop/service/route
+   network. MongoDB holds the arrival cache and historical observations.
+   The databases themselves do not request data from DataMall.
+2. SQL (40s): Show Direct routes and Longest routes in Live data. Explain the
+   joins between stop, service and route records, sequence order and gap checks.
+   Open sql/002_queries.sql: route summaries use CTEs, joins and aggregation;
+   direct_routes uses a self-join, LATERAL subquery and row_number window.
+   longest_routes orders the assessed summaries by distance and limits to ten.
+3. NoSQL (60s): Select a real sampled stop/service and collection dates. Show
+   morning crowding, then trends and valid counts. Open backend/analytics.py:
+   $match filters time/service; $group deduplicates and aggregates; $unwind
+   handles embedded arrivals; $dateTrunc creates half-hour buckets;
+   $setWindowFields calculates weighted rolling totals.
+4. Verification (30s): Open Help & status > API documentation. Use the same
+   dates/stop/service in /analytics/trend or /analytics/peak and compare with
+   the UI's downloaded JSON. The /docs URL uses this app's actual port.
+5. Limitations (30s): Name the actual collection period and sampled stops.
+   Explain gaps, unknown loads, restricted sample coverage and missing fares.
+
+Use Live data for evidence. Try demo is generated in browser JavaScript; it is
+useful for checking the interface, but never demonstrates database execution.
+Capture your own real results after installing. The upgrade's test screenshots
+and fixtures do not prove queries against your installation.
+
+SCOPE AND GRADING CLAIMS
+
+Transfer planning and multi-leg fare calculation remain unimplemented. The
+provided generic INF2003 grading brief does not specifically require fares.
+If your team's proposal promised them, acknowledge the unmet goal in your
+report and presentation; changing the sidebar does not fulfil that promise.
+Do not describe this patch as implementing multi-leg routes or fare rules.
+
+These crowding reports demonstrate NoSQL analytics. They do not measure DB
+execution performance. If you claim query speed, collect a separate reproducible
+benchmark and explain its dataset, indexes, timings and limitations.
+
+The UI upgrade improves the demonstration but does not guarantee a grade.
+Your report still needs the schema/ER model, SQL and NoSQL design rationale,
+queries, data provenance, findings and honest limitations, with all team members
+participating in the presentation required by the brief.
+
+FINAL SUBMISSION
+
+After testing Live data, use your existing submission-tools/Create-Submission.cmd
+to produce a NEW source+data+manual ZIP. The installer updates FILE_MANIFEST.json
+so the new modules, tests and guide are included. The utility exports current
+database snapshots; it does not use your report CSV files as database backups.
+Review the generated ZIP and data/EXPORT_METADATA.json. Do not submit only this
+upgrade ZIP or include your private .env. Keep the upgrade-backups folder local.
+
+TROUBLESHOOTING
+
+Wrong folder: the parent of WhereDaBusSG_UI_Upgrade must contain compose.yaml,
+.env and Start.cmd. An extra ZIP extraction folder may need to be moved.
+
+Source changed outside R2: the installer stops before editing anything. Keep
+your modified source and merge that named file. It never silently overwrites
+unknown changes. Your edited compose.yaml is intentionally preserved.
+
+YAML/config error: fix the existing compose.yaml first. The installer validates
+it before copying source. Do not add a second mongo service or duplicate image.
+
+Docker build error: check Docker Desktop and network access, then rerun the
+upgrade. Already-updated source hashes are accepted. The original files are
+in the printed backup path; no data volume has been removed.
+
+Old sidebar: verify the installer finished, use its printed address, then
+Ctrl+F5. Running a second installation may display a different frontend.
+
+Compass connection error: this patch does not alter or fix database networking.
+Use the connection port actually published by your existing mongo container.

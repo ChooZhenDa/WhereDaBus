@@ -1,0 +1,97 @@
+name: "${WDB_PROJECT:?Run Setup.cmd first}"
+
+x-app-environment: &app-environment
+  SQL_DSN: postgresql://wheredabus:${POSTGRES_PASSWORD:?Run Setup.cmd first}@postgres:5432/wheredabus
+  MONGO_URI: mongodb://wheredabus:${MONGO_PASSWORD:?Run Setup.cmd first}@mongo:27017/?authSource=admin
+  MONGO_DB: wheredabus
+  LTA_ACCOUNT_KEY: ${LTA_ACCOUNT_KEY:-}
+  SAMPLE_STOPS: ${SAMPLE_STOPS:-}
+  SAMPLE_SERVICES: ${SAMPLE_SERVICES:-}
+  PYTHONUNBUFFERED: "1"
+
+services:
+  postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: wheredabus
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run Setup.cmd first}
+      POSTGRES_DB: wheredabus
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wheredabus -d wheredabus"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+      start_period: 15s
+    networks: [database]
+
+  mongo:
+    image: mongo:7.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: wheredabus
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?Run Setup.cmd first}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      interval: 5s
+      timeout: 10s
+      retries: 24
+      start_period: 20s
+    networks: [database]
+
+  setup:
+    build: .
+    image: "${WDB_PROJECT:?Run Setup.cmd first}-app:local"
+    command: ["python", "-m", "backend.bootstrap"]
+    environment: *app-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    restart: "no"
+    networks: [database]
+
+  api:
+    build: .
+    image: "${WDB_PROJECT:?Run Setup.cmd first}-app:local"
+    restart: unless-stopped
+    environment: *app-environment
+    ports:
+      - "127.0.0.1:${APP_PORT:?Run Setup.cmd first}:8080"
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=8).read()"]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
+    networks: [database, outbound]
+
+  sampler:
+    build: .
+    image: "${WDB_PROJECT:?Run Setup.cmd first}-app:local"
+    profiles: [analytics]
+    command: ["python", "-m", "backend.sampler"]
+    restart: unless-stopped
+    environment: *app-environment
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    stop_grace_period: 45s
+    networks: [database, outbound]
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  database:
+    internal: true
+  outbound:

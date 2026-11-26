@@ -1,0 +1,14 @@
+{
+  "name": "wheredabus-sg-fresh-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional development tests. Running the app only requires Docker Desktop.",
+  "scripts": {
+    "test": "node --test tests/test_demo.mjs tests/test_sampling_ui.mjs tests/test_live_session.mjs tests/test_route_ui.mjs tests/test_sql_contract.mjs tests/test_deployment.mjs tests/test_insights.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.16",
+    "yaml": "2.9.1"
+  }
+}

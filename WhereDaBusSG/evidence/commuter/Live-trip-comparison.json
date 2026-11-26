@@ -1,0 +1,87 @@
+{
+  "source": "WhereDaBus SQL routes and MongoDB arrivals and history",
+  "exportedAt": "2026-11-22T11:07:30.057Z",
+  "query": {
+    "origin": "65069",
+    "destination": "67131",
+    "date_from": "2026-11-17",
+    "date_to": "2026-11-22"
+  },
+  "comparison": {
+    "origin": "65069",
+    "destination": "67131",
+    "asOf": "2026-11-22T11:07:30.021159+00:00",
+    "capturedAt": "2026-11-22T11:07:29.986551+00:00",
+    "freshUntil": "2026-11-22T11:07:49.986551+00:00",
+    "liveStatus": "available",
+    "routes": [
+      {
+        "service_no": "86",
+        "direction": 2,
+        "operator": "SBST",
+        "origin_code": "65069",
+        "origin_description": "Blk 190C",
+        "destination_code": "67131",
+        "destination_description": "Bakau Stn/Blk 122F",
+        "origin_sequence": 24,
+        "destination_sequence": 27,
+        "stops_between": 3,
+        "distance_km": 1.4,
+        "segment_coverage": "no_detected_gaps",
+        "route_coverage": "partial",
+        "observed_stops_between": 3,
+        "live": {
+          "status": "available",
+          "eta": "2026-11-22T11:08:03+00:00",
+          "load": "SEA",
+          "monitored": 1
+        },
+        "history": {
+          "status": "limited",
+          "validSamples": 35,
+          "daysWithValidSamples": 1,
+          "observations": 37,
+          "seatsAvailablePct": null
+        }
+      },
+      {
+        "service_no": "136",
+        "direction": 2,
+        "operator": "GAS",
+        "origin_code": "65069",
+        "origin_description": "Blk 190C",
+        "destination_code": "67131",
+        "destination_description": "Bakau Stn/Blk 122F",
+        "origin_sequence": 7,
+        "destination_sequence": 11,
+        "stops_between": 4,
+        "distance_km": 1.3,
+        "segment_coverage": "no_detected_gaps",
+        "route_coverage": "no_detected_gaps",
+        "observed_stops_between": 4,
+        "live": {
+          "status": "available",
+          "eta": "2026-11-22T11:15:38+00:00",
+          "load": null,
+          "monitored": 0
+        },
+        "history": {
+          "status": "limited",
+          "validSamples": 27,
+          "daysWithValidSamples": 1,
+          "observations": 37,
+          "seatsAvailablePct": null
+        }
+      }
+    ],
+    "historyWindow": {
+      "dateFrom": "2026-11-17",
+      "dateTo": "2026-11-22",
+      "start": "2026-11-16T16:00:00+00:00",
+      "endExclusive": "2026-11-22T11:07:29.865601+00:00",
+      "timezone": "Asia/Singapore",
+      "startHour": 7,
+      "endHour": 9
+    }
+  }
+}

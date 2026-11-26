@@ -1,0 +1,33 @@
+WhereDaBusSG - standalone installer revision 2, 15 November 2026
+
+FIXED IN REVISION 2
+The Docker configuration helper now writes Windows-compatible CRLF launcher
+metadata on every operating system. Previously Linux Docker wrote LF-only
+metadata, which Windows FINDSTR /X rejected after reporting Configuration ready.
+Setup and Start regenerate this file automatically. Existing .env credentials,
+installation identity and database records do not need to be replaced.
+
+To update an already extracted copy, copy all files from this ZIP's inner
+WhereDaBusSG-Standalone folder into your existing application folder and accept
+file replacements. This ZIP contains no .env, so your saved configuration remains.
+Then run Setup.cmd; press Enter to retain the existing LTA key.
+
+WhereDaBusSG - standalone installer, 15 November 2026
+
+The complete GUI and route-coverage application is included in one ZIP.
+
+The installer now creates a unique Docker project and fresh credentials for
+an unconfigured installation. All start/stop/import commands use that identity.
+It no longer uses the shared wheredabus-fresh project or its database passwords.
+A Windows port check chooses a free local address for each new installation.
+Repeated setup preserves a valid installation and can replace only the LTA key.
+Legacy or damaged configuration is privately backed up before a new isolated
+installation is prepared. Earlier database volumes are not deleted or adopted.
+
+The six-page GUI, live requests, retained partial route coverage and schema-v2
+initialization remain included. There is no required sampling setup or manual
+stop-code entry. Backend, SQL and frontend behavior are unchanged by this
+installer update. Submission export tools are bundled for this new identity.
+
+This package needs Docker Desktop, internet access and your own LTA key for
+live data. Docker installs the application's runtime/database dependencies.

@@ -1,0 +1,20 @@
+{
+  "_notice": "SYNTHETIC data for deterministic demonstration; not an LTA dataset",
+  "BusStops": [
+    {"BusStopCode":"01001","RoadName":"Demo Road","Description":"Demo Campus","Latitude":1.300,"Longitude":103.800},
+    {"BusStopCode":"01002","RoadName":"Demo Road","Description":"Demo Library","Latitude":1.301,"Longitude":103.801},
+    {"BusStopCode":"01003","RoadName":"Test Avenue","Description":"Demo Station","Latitude":1.302,"Longitude":103.802}
+  ],
+  "BusServices": [
+    {"ServiceNo":"DEMO1","Direction":1,"Operator":"DEMO","Category":"TRUNK","OriginCode":"01001","DestinationCode":"01001","LoopDesc":"Demo Loop"},
+    {"ServiceNo":"DEMO2","Direction":1,"Operator":"DEMO","Category":"TRUNK","OriginCode":"01001","DestinationCode":"01003","LoopDesc":""}
+  ],
+  "BusRoutes": [
+    {"ServiceNo":"DEMO1","Direction":1,"Operator":"DEMO","StopSequence":1,"BusStopCode":"01001","Distance":0},
+    {"ServiceNo":"DEMO1","Direction":1,"Operator":"DEMO","StopSequence":2,"BusStopCode":"01002","Distance":1},
+    {"ServiceNo":"DEMO1","Direction":1,"Operator":"DEMO","StopSequence":3,"BusStopCode":"01003","Distance":2.5},
+    {"ServiceNo":"DEMO1","Direction":1,"Operator":"DEMO","StopSequence":4,"BusStopCode":"01001","Distance":4},
+    {"ServiceNo":"DEMO2","Direction":1,"Operator":"DEMO","StopSequence":1,"BusStopCode":"01001","Distance":0},
+    {"ServiceNo":"DEMO2","Direction":1,"Operator":"DEMO","StopSequence":2,"BusStopCode":"01003","Distance":3}
+  ]
+}

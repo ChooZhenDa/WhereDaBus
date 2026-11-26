@@ -1,0 +1,62 @@
+x-environment: &app-env
+  SQL_DSN: postgresql://wdb_review:${REVIEW_SQL_PASSWORD:?}@postgres:5432/wheredabus_submission_review
+  MONGO_URI: mongodb://wdb_review:${REVIEW_MONGO_PASSWORD:?}@mongo:27017/?authSource=admin
+  MONGO_DB: wheredabus_submission_review
+  SAMPLE_STOPS: 22599,44181,59059,65069,66359
+  PYTHONPATH: /app
+  LTA_ACCOUNT_KEY: ""
+services:
+  postgres:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_DB: wheredabus_submission_review
+      POSTGRES_USER: wdb_review
+      POSTGRES_PASSWORD: ${REVIEW_SQL_PASSWORD:?}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ../data/postgresql.sql:/docker-entrypoint-initdb.d/010-snapshot.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "wdb_review", "-d", "wheredabus_submission_review"]
+      interval: 3s
+      timeout: 5s
+      retries: 60
+  mongo:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: wdb_review
+      MONGO_INITDB_ROOT_PASSWORD: ${REVIEW_MONGO_PASSWORD:?}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      interval: 4s
+      timeout: 10s
+      retries: 60
+  loader:
+    image: ${REVIEW_IMAGE:?}
+    command: ["python", "/review/load.py"]
+    environment: *app-env
+    volumes:
+      - ../data:/review-data:ro
+      - .:/review:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+  api:
+    image: ${REVIEW_IMAGE:?}
+    build: ..
+    environment: *app-env
+    ports: ["127.0.0.1::8080"]
+    depends_on:
+      loader:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=8).read()"]
+      interval: 5s
+      timeout: 10s
+      retries: 40
+volumes:
+  pg_data:
+  mongo_data:

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c2c">
+  <meta name="description" content="Singapore bus arrivals, stops and routes.">
+  <title>WhereDaBus SG · Live arrivals</title>
+  <link rel="icon" href="/ui-assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/ui-assets/styles.css?v=fares-feedback">
+  <script type="module" src="/ui-assets/app.js?v=fares-feedback"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <button id="menu-scrim" class="menu-scrim" aria-label="Close navigation" hidden></button>
+  <aside class="sidebar" id="sidebar" aria-label="App sidebar">
+    <a class="brand" href="#arrivals" aria-label="WhereDaBus SG home"><span class="brand-mark" data-icon="bus"></span><span>WhereDaBus<span class="brand-sub">SINGAPORE</span></span></a>
+    <nav id="navigation" aria-label="Features"></nav>
+    <div class="sidebar-footer"><span class="sg-mark">SG</span><span>Times in Singapore · SGT</span></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="breadcrumb"><button class="icon-button menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false"><span data-icon="menu"></span></button><strong id="breadcrumb">Live arrivals</strong></div>
+      <div class="data-switch" role="group" aria-label="Data source"><button id="live-mode" aria-pressed="true"><span class="status-dot"></span>Live data</button><button id="demo-mode" aria-pressed="false">Try demo</button></div>
+    </header>
+    <main id="main" tabindex="-1">
+      <div id="mode-notice" class="notice" hidden></div>
+      <div class="page-heading"><h1 id="page-title">Live arrivals</h1></div>
+      <section id="view-arrivals" class="view" aria-label="Live arrivals">
+        <div class="split-layout"><div class="primary-column">
+          <form id="arrivals-form" class="panel search-panel"><label for="arrival-stop">Stop code, stop name or road</label><div class="input-action"><div class="input-with-icon"><span data-icon="search"></span><input id="arrival-stop" name="query" placeholder="Search by stop name" required maxlength="150" autocomplete="off"></div><button class="button primary" type="submit">Find arrivals <span data-icon="arrow"></span></button></div><div id="arrival-matches" class="stop-matches"></div></form>
+          <div id="arrival-result" class="result-region" aria-live="polite"></div>
+        </div><aside class="secondary-column" aria-label="Saved stops and bus capacity"><div class="panel saved-preview"><div id="saved-preview"></div><a class="text-link" href="#saved">View saved stops <span data-icon="arrow"></span></a></div><div class="legend" aria-label="Bus capacity legend"><span><i class="load-dot seats"></i>Seats available</span><span><i class="load-dot standing"></i>Standing available</span><span><i class="load-dot limited"></i>Limited standing</span></div></aside></div>
+      </section>
+      <section id="view-nearby" class="view" aria-label="Nearby stops" hidden>
+        <form id="nearby-form" class="panel search-panel"><div class="location-action"><button type="button" id="locate-button" class="button secondary"><span data-icon="locate"></span>Use my location</button></div><div class="form-grid three"><div><label for="nearby-lat">Latitude</label><input id="nearby-lat" name="lat" type="number" step="any" min="-90" max="90" placeholder="1.344" required></div><div><label for="nearby-lon">Longitude</label><input id="nearby-lon" name="lon" type="number" step="any" min="-180" max="180" placeholder="103.701" required></div><div><label for="nearby-radius">Search radius</label><select id="nearby-radius" name="radius"><option value="300">300 metres</option><option value="500" selected>500 metres</option><option value="1000">1 kilometre</option><option value="2000">2 kilometres</option><option value="5000">5 kilometres</option></select></div></div><div class="form-footer"><p class="field-hint" id="location-message">Location is only requested when you choose “Use my location”.</p><button class="button primary" type="submit">Find nearby stops <span data-icon="arrow"></span></button></div></form><div id="nearby-result" class="result-region" aria-live="polite"></div>
+      </section>
+      <section id="view-direct" class="view" aria-label="Direct routes" hidden>
+        <form id="direct-form" class="panel search-panel"><div class="journey-inputs"><div><label for="direct-origin">From · stop name, road or code</label><input id="direct-origin" aria-describedby="direct-origin-selected" maxlength="150" placeholder="Search by stop name" required><input type="hidden" id="direct-origin-code"><p id="direct-origin-selected" class="field-hint stop-selection" aria-live="polite" hidden></p><button id="direct-origin-search" class="button ghost" type="button">Find from stop</button><div id="direct-origin-matches" class="result-region stop-matches" aria-live="polite"></div></div><button id="swap-stops" type="button" class="icon-button swap-button" aria-label="Swap origin and destination"><span data-icon="swap"></span></button><div><label for="direct-destination">To · stop name, road or code</label><input id="direct-destination" aria-describedby="direct-destination-selected" maxlength="150" placeholder="Search by stop name" required><input type="hidden" id="direct-destination-code"><p id="direct-destination-selected" class="field-hint stop-selection" aria-live="polite" hidden></p><button id="direct-destination-search" class="button ghost" type="button">Find to stop</button><div id="direct-destination-matches" class="result-region stop-matches" aria-live="polite"></div></div><button type="submit" class="button primary">Find a route <span data-icon="arrow"></span></button></div></form>
+        <details class="comparison-period"><summary>Historical crowding dates</summary>
+          <p class="field-hint">Leave both dates empty for the default period. Times use Singapore time.</p>
+          <div class="comparison-actions"><div><label for="direct-date-from">From date</label><input type="date" form="direct-form" id="direct-date-from"></div>
+          <div><label for="direct-date-to">Through date</label><input type="date" form="direct-form" id="direct-date-to"></div></div></details>
+        <div id="direct-result" class="result-region" aria-live="polite"></div>
+      </section>
+      <section id="view-road" class="view" aria-label="Routes by road" hidden><form id="road-form" class="panel search-panel"><label for="road-name">Road name</label><div class="input-action"><div class="input-with-icon"><span data-icon="search"></span><input id="road-name" name="name" maxlength="150" placeholder="Enter a road name" required></div><button type="submit" class="button primary">Find services <span data-icon="arrow"></span></button></div></form><div id="road-result" class="result-region" aria-live="polite"></div></section>
+      <section id="view-longest" class="view" aria-label="Longest routes" hidden></section>
+      <section id="view-peak" class="view" aria-label="Morning crowding" hidden></section>
+      <section id="view-trend" class="view" aria-label="Half-hour trends" hidden></section>
+      <section id="view-journeys" class="view" aria-label="Saved journeys" hidden>
+        <div class="panel feature-toolbar"><a href="#direct" class="button secondary"><span data-icon="plus"></span>Find a journey</a></div>
+        <p id="journeys-scope" class="field-hint">Saved in PostgreSQL for this browser. Reopen a journey to get updated boarding estimates.</p>
+        <div id="journeys-result" class="result-region" aria-live="polite"></div>
+      </section>
+      <section id="view-saved" class="view" aria-label="Saved stops" hidden><div class="panel feature-toolbar"><a href="#arrivals" class="button secondary"><span data-icon="plus"></span>Find a stop</a></div><div id="saved-result" class="result-region" aria-live="polite"></div></section>
+      <section id="view-status" class="view" aria-label="Service status" hidden>
+        <div class="panel feature-toolbar"><button id="status-refresh" class="button secondary"><span data-icon="refresh"></span>Check connection</button></div><div id="status-result" class="result-region" aria-live="polite"></div>
+        <div class="panel help-panel"><details><summary>How do I collect historical observations?</summary><p>The separate historical collector saves observations for the configured stops while Docker is running and your computer is awake. Opening Live arrivals alone does not collect history. Visit Half-hour trends and choose Today so far to inspect newly collected samples. Morning crowding uses weekday observations from 07:00 to 08:59 Singapore time.</p><p>After configuring SAMPLE_STOPS, start collection from PowerShell in the application folder:</p><pre class="help-command">docker compose --env-file .env --profile analytics up -d api sampler</pre><p>Check it with:</p><pre class="help-command">docker compose --env-file .env logs --tail 5 sampler</pre></details><details><summary>What does this release include?</summary><p>Live arrivals, nearby stops, direct routes, road-based searches, longest-route ranking, morning crowding, and half-hour historical trends. Direct routes shows adult card fares for a single ride where fare data is available. Use Feedback on an upcoming arrival to report a full, delayed or skipped bus. Journeys requiring transfers are outside this release. Saved stops remain in this browser. Direct routes includes boarding estimates and morning crowding. Save and name a journey to reopen its comparison.</p></details><details><summary>Does Try demo query my database?</summary><p>No. Demo mode generates clearly labelled synthetic examples in the browser. Use Live data with collected observations to demonstrate your actual PostgreSQL and MongoDB implementations.</p></details><details><summary>Where is the backend API documentation?</summary><p><a href="/docs" target="_blank" rel="noopener">Open API documentation</a> on this application's address. Its port comes from your installation settings.</p></details><details><summary>Why are there no nearby stops?</summary><p>Try a wider radius and confirm the coordinates. The app needs imported bus stop data. Run Refresh-Data.cmd to refresh it.</p></details><details><summary>Why are some routes missing?</summary><p>Run Refresh-Data.cmd to import the route network. Usable route records are kept even when a service direction has gaps. Journeys crossing a gap are labelled partial, with unknown stop counts and distances. A gap elsewhere does not exclude your selected section. Direct routes searches for one bus serving the selected physical stops in the correct order; it does not guarantee current operation. Journeys requiring a transfer are not included.</p></details><details><summary>How do live arrivals update?</summary><p>Search a bus stop by name, road or code. Turn on Auto refresh to request updated arrivals every 20 seconds while the page is visible. Unknown capacity remains unknown.</p></details><details><summary>Where are my saved stops stored?</summary><p>They stay in this browser on this device. No account is needed. Demo stops and live stops are stored separately.</p></details><details><summary>Where are my saved journeys stored?</summary><p>Live journeys are stored in PostgreSQL. This browser keeps the private key used to access them. Clearing site data or using a different browser profile removes access to that list. Demo journeys are stored only in this browser.</p></details></div>
+      </section>
+      <footer class="page-footer"><span>WhereDaBus SG</span><a href="#status">Help &amp; status <span data-icon="arrow"></span></a></footer>
+    </main>
+  </div>
+  <dialog id="feedback-dialog" class="feedback-dialog" aria-labelledby="feedback-title">
+    <h2 id="feedback-title">Rider feedback</h2>
+    <p class="feedback-arrival"></p>
+    <p class="feedback-counts"></p>
+    <form>
+      <label for="feedback-issue">Your report for this arrival</label>
+      <select id="feedback-issue" name="issue" required>
+        <option value="">Choose an issue</option>
+        <option value="full">Bus full</option>
+        <option value="delayed">Bus delayed</option>
+        <option value="skipped">Bus skipped stop</option>
+      </select>
+      <div class="feedback-buttons">
+        <button type="submit" class="button primary">Send feedback</button>
+        <button type="button" class="button secondary" data-clear-report hidden>Clear my report</button>
+        <button type="button" class="button ghost" data-close-feedback>Close</button>
+      </div>
+    </form>
+    <p role="status"></p>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><div class="noscript">Enable JavaScript to use stop searches, arrivals and navigation.</div></noscript>
+</body>
+</html>

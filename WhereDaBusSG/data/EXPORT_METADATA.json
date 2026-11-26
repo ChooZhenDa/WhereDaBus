@@ -1,0 +1,31 @@
+{
+  "group": 51,
+  "sourceRelease": "2026-11-22-fares-feedback",
+  "exportDaySGT": "2026-11-26",
+  "schemaVersion": 3,
+  "mongoSampleManifest": {
+    "format": "wheredabus-observations-bson-v1",
+    "count": 85724,
+    "cutoffUtc": "2026-11-25T18:13:07.537992+00:00",
+    "firstUtc": "2026-11-17T22:59:14.720000+00:00",
+    "lastUtc": "2026-11-22T17:30:58.878000+00:00",
+    "sha256": "ec6b1fe1415cbdbdd7039f3d72a5d07e1bd7e1e6e3600a97efeac01626aef2ec"
+  },
+  "sqlFile": "postgresql.sql",
+  "sqlSHA256": "4b1b3fdf280d4239c52c83bcad551208e723cb848c0b3e00cee537b684419852",
+  "sqlTablesWithRows": [
+    "bus_routes",
+    "bus_services",
+    "bus_stops",
+    "import_runs",
+    "schema_version"
+  ],
+  "exclusions": [
+    "transport.users rows",
+    "transport.favourite_routes rows",
+    "transport.saved_journeys rows",
+    "MongoDB collections other than arrival_observations",
+    "installation credentials"
+  ],
+  "provenance": "Fresh PostgreSQL 16 pg_dump of transport; Python BSON export from the same installation, with the sampler stopped. Historical benchmark/audit/CRUD files are dated independently."
+}

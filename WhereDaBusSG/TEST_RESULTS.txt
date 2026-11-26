@@ -1,0 +1,69 @@
+WhereDaBusSG - standalone installation validation - revision 2
+15 November 2026, Singapore
+
+CURRENT RELEASE CHECKS
+
+- Exact reported failure reproduced: LF-only settings written with Linux
+  defaults caused Windows FINDSTR /X to reject all three metadata fields after
+  Configuration ready. The previous mock ran the producer on Windows, which
+  implicitly wrote CRLF and masked this bug.
+- The producer now explicitly writes CRLF. A raw-byte regression forces Linux
+  default text-writing behavior and checks the emitted bytes. Actual Windows
+  CMD tests now use those Linux defaults for all implicit text writes.
+- A before/after test reproduced the exact old error, then verified that the
+  corrected producer reaches startup and import commands with the same existing
+  .env bytes, key and installation identity. Docker commands remain simulated.
+
+- 19 Python configuration checks passed: unique identities/passwords, missing,
+  legacy and damaged configuration, private backups, valid repeated setup,
+  key replacement/cancellation, concurrent-change detection and secret-free
+  launcher metadata.
+- 17 Windows CMD/PowerShell/Python launcher checks passed using actual launchers
+  and configuration helpers with simulated Docker operations and key entry.
+  Two fresh project folders received different identities/passwords. Existing
+  wheredabus-fresh shell settings/volumes did not choose their project. Legacy
+  placeholder configuration was archived and replaced with a new installation.
+  Valid repeat setup kept its identity, passwords and URL. All five wrappers,
+  prerequisite failures and stop/route import error handling were checked.
+- 7 Windows PowerShell port-selection checks passed. Real loopback listeners
+  verified that an occupied port 18081 was skipped; holding all 101 preferred
+  ports forced successful selection of another OS-assigned free port.
+- 70 JavaScript/SQL/deployment checks passed, including 29 checks executing SQL
+  in PGlite (WebAssembly PostgreSQL). They cover route gaps, partial metrics,
+  correct direction/loops, migrations, current GUI behavior and dynamic Compose
+  project/image/port isolation. No failures or skipped cases.
+- 18 bundled submission-helper checks passed using Windows PowerShell and
+  simulated Docker responses: unique project selection, invalid/missing IDs,
+  source/data/manual archive generation, SHA256 checks, secret exclusion and
+  failure handling.
+- Release archive verifies CRC, required runtime files, payload SHA256 values,
+  safe relative paths and a credential-free .env.example. No real .env, caches,
+  database dumps or installed dependency directories are distributed.
+
+PRIOR APPLICATION EVIDENCE
+
+The unchanged backend/frontend/SQL application passed all 212 Python tests in
+its coverage release (13 November), including API tests with mocked databases
+and provider boundaries. Its 182 non-HTTP Python checks were also verified in
+final-package preparation on 15 November. The current change concerns setup,
+resource isolation, port selection and optional submission tools; it does not
+change the bus-query algorithms or bring back removed GUI pages.
+
+LIMITS
+
+No Docker Engine or live LTA key was available for a full deployment of the
+PostgreSQL16 + MongoDB7 containers. Docker startup/import behavior in launcher
+checks uses test doubles; SQL checks use PGlite. Windows port binding was tested
+against the real host network stack. Like ordinary port checks, a brief race
+remains if another program binds the selected port before Docker starts.
+No claim is made about live-provider completeness or measured production speed.
+Run Setup.cmd on the target PC to build and import its real bus data.
+
+OPTIONAL DEVELOPER TESTS
+
+Use Python with requirements-test.txt installed and Node.js with package.json
+packages installed, then run from the application folder:
+  python -m unittest discover -s tests -v
+  npm test
+These development dependencies are not needed to install/run the application;
+Docker supplies its runtime dependencies.

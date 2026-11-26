@@ -1,0 +1,58 @@
+WhereDaBusSG analytics UI 1.4.0 - validation, 16 November 2026
+
+BASELINE
+Based on Group_51_WhereDaBusSG_Source_20261116-104400-0bc0dfa9.zip and checked
+against WhereDaBusSG-Standalone-R2 (1).zip. The key API/frontend files in these
+archives matched. Original file hashes are recorded in upgrade-manifest.json.
+The installer rejects unknown edits to files it would replace. It preserves
+the existing .env and compose.yaml, including independent Compass changes.
+
+PASSED
+- 239 Python tests: existing domain/API contracts and eight new date-window/API
+  checks. API date filters are checked using a mocked MongoDB boundary.
+- 38 JavaScript tests: demo data, UI request behaviour, selection helpers,
+  Singapore date presets, date validation, CSV escaping/formula protection,
+  missing-vs-zero handling and chart gaps.
+- 37 SQL/deployment tests: route functions exercised with PGlite and deployment
+  configuration checks. These use the original source compose configuration;
+  they do not certify a separately edited local compose.yaml.
+- Headless Chromium browser checks: demo peak/trend/longest screens, JSON
+  download, desktop layout and mobile 390px layout with no body overflow.
+  Screenshots were inspected. Charts and tables scroll horizontally on mobile.
+- Browser tests with mocked live HTTP: correct endpoint/filter dispatch, null
+  versus zero rendering, CSV contents, empty history, server error and retry,
+  request cancellation after filter changes, demo/live isolation, zero-valid
+  peak samples and longest-route results. No uncaught browser JavaScript errors.
+- Eight PowerShell installer scenarios on disposable R2 source copies:
+  preflight without changes; install and repeat; reject user edits; reject
+  corrupt payload; stop before edits on invalid Compose; build failure and
+  retry; normalize an exported manifest; reject a path escape.
+  Docker and HTTP were mocked. Tests assert that .env, compose.yaml, sampler.py
+  and SQL are unchanged, backups exist, new source is included in FILE_MANIFEST,
+  and only 'build api' / 'up -d --no-deps api' perform container-related changes.
+- Upgrade ZIP entries, CRC and all payload SHA-256 hashes verified.
+
+LIMITS
+The development environment had no actual Docker daemon, your Windows desktop,
+your live PostgreSQL/MongoDB instances or your LTA credentials. Real database
+integration tests and the Docker image build were not run here. The installer
+was executed using PowerShell 7.4.7 on Linux with command mocks; Windows
+PowerShell 5.1 syntax was used, but that runtime was not available for execution.
+Browser HTTP fixtures are not evidence of queries against your installation.
+
+AFTER INSTALLATION
+1. Confirm the three new sidebar pages after Ctrl+F5.
+2. Use Live data and real sampled stop/service/date combinations.
+3. Compare the UI JSON download with the same /docs endpoint and filters.
+4. Confirm sampler logs continue advancing and your existing observations remain.
+5. Export a fresh submission ZIP and review its source and database snapshots.
+
+REPRODUCING PROJECT TESTS (optional developer tools)
+Install requirements.txt and requirements-test.txt in a Python environment:
+  python -m unittest discover -s tests -p "test_*.py"
+Install package.json devDependencies, then:
+  npm test
+These steps are not required to run the app; end users only need Docker Desktop.
+
+Tests are verification evidence, not a grade prediction. Fares and transfer
+planning remain unimplemented. Crowding analysis is not a query-speed benchmark.

@@ -1,0 +1,98 @@
+{
+  "environment": "Fresh isolated PostgreSQL 16 and MongoDB 7, no LTA account key",
+  "first": {
+    "status": "verified",
+    "transfer": {
+      "verified": 85724,
+      "inserted": 85724,
+      "alreadyPresent": 0,
+      "outsideRetention": 0,
+      "sha256": "ec6b1fe1415cbdbdd7039f3d72a5d07e1bd7e1e6e3600a97efeac01626aef2ec"
+    },
+    "sql": {
+      "bus_stops": 5209,
+      "bus_services": 804,
+      "bus_routes": 26946,
+      "import_runs": 3,
+      "schemaVersion": 3,
+      "stopLookup": [
+        {
+          "service": "70M",
+          "direction": 1,
+          "stopSequence": 27
+        }
+      ],
+      "directRoutes": [
+        {
+          "service": "857",
+          "direction": 1,
+          "stopsBetween": 61,
+          "km": 42.0
+        },
+        {
+          "service": "860",
+          "direction": 1,
+          "stopsBetween": 12,
+          "km": 4.6
+        },
+        {
+          "service": "860T",
+          "direction": 1,
+          "stopsBetween": 12,
+          "km": 4.6
+        }
+      ]
+    },
+    "physicalObservations": 85724
+  },
+  "repeat": {
+    "status": "verified",
+    "transfer": {
+      "verified": 85724,
+      "inserted": 0,
+      "alreadyPresent": 85724,
+      "outsideRetention": 0,
+      "sha256": "ec6b1fe1415cbdbdd7039f3d72a5d07e1bd7e1e6e3600a97efeac01626aef2ec"
+    },
+    "sql": {
+      "bus_stops": 5209,
+      "bus_services": 804,
+      "bus_routes": 26946,
+      "import_runs": 3,
+      "schemaVersion": 3,
+      "stopLookup": [
+        {
+          "service": "70M",
+          "direction": 1,
+          "stopSequence": 27
+        }
+      ],
+      "directRoutes": [
+        {
+          "service": "857",
+          "direction": 1,
+          "stopsBetween": 61,
+          "km": 42.0
+        },
+        {
+          "service": "860",
+          "direction": 1,
+          "stopsBetween": 12,
+          "km": 4.6
+        },
+        {
+          "service": "860T",
+          "direction": 1,
+          "stopsBetween": 12,
+          "km": 4.6
+        }
+      ]
+    },
+    "physicalObservations": 85724
+  },
+  "initialPrivateSQLRows": {
+    "users": 0,
+    "favourite_routes": 0,
+    "saved_journeys": 0
+  }
+}

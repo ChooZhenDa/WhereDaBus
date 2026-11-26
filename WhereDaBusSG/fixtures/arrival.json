@@ -1,0 +1,14 @@
+{
+  "_notice":"SYNTHETIC fixture; not an LTA response",
+  "BusStopCode":"01001",
+  "Services":[{
+    "ServiceNo":"DEMO1","Operator":"DEMO",
+    "NextBus":{
+      "OriginCode":"01001","DestinationCode":"01001",
+      "EstimatedArrival":"2026-10-09T07:35:00+08:00",
+      "Monitored":1,"Latitude":"1.301","Longitude":"103.801",
+      "VisitNumber":"1","Load":"SEA","Feature":"WAB","Type":"DD"
+    },
+    "NextBus2":{},"NextBus3":{}
+  }]
+}

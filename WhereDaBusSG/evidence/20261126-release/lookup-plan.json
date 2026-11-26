@@ -1,0 +1,11 @@
+{
+  "source": "EXPLAIN (ANALYZE, BUFFERS) in PostgreSQL 16 during 26 Nov 2026 SGT release export",
+  "statement": "SELECT service_no, direction, stop_sequence FROM transport.bus_routes WHERE stop_code='66359' AND service_no='70M' ORDER BY direction, stop_sequence",
+  "observed": {
+    "scan": "Index Only Scan",
+    "index": "bus_routes_by_stop",
+    "heapFetches": 0,
+    "executionTimeMs": 0.748
+  },
+  "interpretation": "Single recorded execution. Cache state and hardware affect repeat timings."
+}

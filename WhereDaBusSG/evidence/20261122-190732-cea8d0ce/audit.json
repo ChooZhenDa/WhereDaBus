@@ -1,0 +1,607 @@
+{
+  "evidenceVersion": 1,
+  "mode": "audit",
+  "startedAtUtc": {
+    "$date": "2026-11-22T11:07:32.394Z"
+  },
+  "python": "3.12.16",
+  "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "results": {
+    "sql": {
+      "version": "16.15 (Debian 16.15-1.pgdg12+2)",
+      "counts": {
+        "bus_stops": 5209,
+        "bus_services": 804,
+        "bus_routes": 26946,
+        "import_runs": 3
+      },
+      "schemaVersion": 3,
+      "constraints": [
+        [
+          "transport.bus_routes",
+          "bus_routes_distance_km_check",
+          "CHECK (((distance_km >= (0)::numeric) AND (distance_km < (1000)::numeric)))"
+        ],
+        [
+          "transport.bus_routes",
+          "bus_routes_pkey",
+          "PRIMARY KEY (service_no, direction, stop_sequence)"
+        ],
+        [
+          "transport.bus_routes",
+          "bus_routes_service_no_direction_fkey",
+          "FOREIGN KEY (service_no, direction) REFERENCES transport.bus_services(service_no, direction)"
+        ],
+        [
+          "transport.bus_routes",
+          "bus_routes_stop_code_fkey",
+          "FOREIGN KEY (stop_code) REFERENCES transport.bus_stops(stop_code)"
+        ],
+        [
+          "transport.bus_routes",
+          "bus_routes_stop_sequence_check",
+          "CHECK ((stop_sequence > 0))"
+        ],
+        [
+          "transport.bus_services",
+          "bus_services_destination_code_fkey",
+          "FOREIGN KEY (destination_code) REFERENCES transport.bus_stops(stop_code)"
+        ],
+        [
+          "transport.bus_services",
+          "bus_services_direction_check",
+          "CHECK ((direction = ANY (ARRAY[1, 2])))"
+        ],
+        [
+          "transport.bus_services",
+          "bus_services_operator_check",
+          "CHECK ((length(btrim(operator)) > 0))"
+        ],
+        [
+          "transport.bus_services",
+          "bus_services_origin_code_fkey",
+          "FOREIGN KEY (origin_code) REFERENCES transport.bus_stops(stop_code)"
+        ],
+        [
+          "transport.bus_services",
+          "bus_services_pkey",
+          "PRIMARY KEY (service_no, direction)"
+        ],
+        [
+          "transport.bus_services",
+          "bus_services_service_no_check",
+          "CHECK ((service_no ~ '^[A-Za-z0-9]{1,12}$'::text))"
+        ],
+        [
+          "transport.bus_stops",
+          "bus_stops_description_check",
+          "CHECK ((length(btrim(description)) > 0))"
+        ],
+        [
+          "transport.bus_stops",
+          "bus_stops_latitude_check",
+          "CHECK (((latitude >= ('-90'::integer)::double precision) AND (latitude <= (90)::double precision)))"
+        ],
+        [
+          "transport.bus_stops",
+          "bus_stops_longitude_check",
+          "CHECK (((longitude >= ('-180'::integer)::double precision) AND (longitude <= (180)::double precision)))"
+        ],
+        [
+          "transport.bus_stops",
+          "bus_stops_pkey",
+          "PRIMARY KEY (stop_code)"
+        ],
+        [
+          "transport.bus_stops",
+          "bus_stops_stop_code_check",
+          "CHECK ((stop_code ~ '^[0-9]{5}$'::text))"
+        ],
+        [
+          "transport.favourite_routes",
+          "favourite_routes_pkey",
+          "PRIMARY KEY (user_id, service_no, direction)"
+        ],
+        [
+          "transport.favourite_routes",
+          "favourite_routes_service_no_direction_fkey",
+          "FOREIGN KEY (service_no, direction) REFERENCES transport.bus_services(service_no, direction)"
+        ],
+        [
+          "transport.favourite_routes",
+          "favourite_routes_user_id_fkey",
+          "FOREIGN KEY (user_id) REFERENCES transport.users(user_id) ON DELETE CASCADE"
+        ],
+        [
+          "transport.import_runs",
+          "import_runs_pkey",
+          "PRIMARY KEY (run_id)"
+        ],
+        [
+          "transport.import_runs",
+          "import_runs_route_count_check",
+          "CHECK ((route_count > 0))"
+        ],
+        [
+          "transport.import_runs",
+          "import_runs_service_count_check",
+          "CHECK ((service_count > 0))"
+        ],
+        [
+          "transport.import_runs",
+          "import_runs_stop_count_check",
+          "CHECK ((stop_count > 0))"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_check",
+          "CHECK ((origin <> destination))"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_destination_fkey",
+          "FOREIGN KEY (destination) REFERENCES transport.bus_stops(stop_code)"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_label_check",
+          "CHECK (((label = btrim(label)) AND ((length(label) >= 1) AND (length(label) <= 80))))"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_origin_fkey",
+          "FOREIGN KEY (origin) REFERENCES transport.bus_stops(stop_code)"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_owner_hash_check",
+          "CHECK ((octet_length(owner_hash) = 32))"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_owner_hash_origin_destination_key",
+          "UNIQUE (owner_hash, origin, destination)"
+        ],
+        [
+          "transport.saved_journeys",
+          "saved_journeys_pkey",
+          "PRIMARY KEY (journey_id)"
+        ],
+        [
+          "transport.schema_version",
+          "schema_version_pkey",
+          "PRIMARY KEY (version)"
+        ],
+        [
+          "transport.users",
+          "users_auth_subject_check",
+          "CHECK ((length(btrim(auth_subject)) > 0))"
+        ],
+        [
+          "transport.users",
+          "users_auth_subject_key",
+          "UNIQUE (auth_subject)"
+        ],
+        [
+          "transport.users",
+          "users_display_name_check",
+          "CHECK ((length(btrim(display_name)) > 0))"
+        ],
+        [
+          "transport.users",
+          "users_email_check",
+          "CHECK ((length(btrim(email)) > 0))"
+        ],
+        [
+          "transport.users",
+          "users_pkey",
+          "PRIMARY KEY (user_id)"
+        ]
+      ],
+      "indexes": [
+        [
+          "bus_routes",
+          "bus_routes_by_stop",
+          "CREATE INDEX bus_routes_by_stop ON transport.bus_routes USING btree (stop_code, service_no, direction, stop_sequence)"
+        ],
+        [
+          "bus_routes",
+          "bus_routes_pkey",
+          "CREATE UNIQUE INDEX bus_routes_pkey ON transport.bus_routes USING btree (service_no, direction, stop_sequence)"
+        ],
+        [
+          "bus_services",
+          "bus_services_pkey",
+          "CREATE UNIQUE INDEX bus_services_pkey ON transport.bus_services USING btree (service_no, direction)"
+        ],
+        [
+          "bus_stops",
+          "bus_stops_active_coordinates",
+          "CREATE INDEX bus_stops_active_coordinates ON transport.bus_stops USING btree (latitude, longitude) WHERE is_active"
+        ],
+        [
+          "bus_stops",
+          "bus_stops_active_description",
+          "CREATE INDEX bus_stops_active_description ON transport.bus_stops USING btree (lower(description)) WHERE is_active"
+        ],
+        [
+          "bus_stops",
+          "bus_stops_pkey",
+          "CREATE UNIQUE INDEX bus_stops_pkey ON transport.bus_stops USING btree (stop_code)"
+        ],
+        [
+          "favourite_routes",
+          "favourite_routes_pkey",
+          "CREATE UNIQUE INDEX favourite_routes_pkey ON transport.favourite_routes USING btree (user_id, service_no, direction)"
+        ],
+        [
+          "import_runs",
+          "import_runs_pkey",
+          "CREATE UNIQUE INDEX import_runs_pkey ON transport.import_runs USING btree (run_id)"
+        ],
+        [
+          "import_runs",
+          "import_runs_recent",
+          "CREATE INDEX import_runs_recent ON transport.import_runs USING btree (committed_at DESC)"
+        ],
+        [
+          "saved_journeys",
+          "saved_journeys_owner_hash_origin_destination_key",
+          "CREATE UNIQUE INDEX saved_journeys_owner_hash_origin_destination_key ON transport.saved_journeys USING btree (owner_hash, origin, destination)"
+        ],
+        [
+          "saved_journeys",
+          "saved_journeys_pkey",
+          "CREATE UNIQUE INDEX saved_journeys_pkey ON transport.saved_journeys USING btree (journey_id)"
+        ],
+        [
+          "schema_version",
+          "schema_version_pkey",
+          "CREATE UNIQUE INDEX schema_version_pkey ON transport.schema_version USING btree (version)"
+        ],
+        [
+          "users",
+          "users_auth_subject_key",
+          "CREATE UNIQUE INDEX users_auth_subject_key ON transport.users USING btree (auth_subject)"
+        ],
+        [
+          "users",
+          "users_email_case_insensitive",
+          "CREATE UNIQUE INDEX users_email_case_insensitive ON transport.users USING btree (lower(btrim(email)))"
+        ],
+        [
+          "users",
+          "users_pkey",
+          "CREATE UNIQUE INDEX users_pkey ON transport.users USING btree (user_id)"
+        ]
+      ],
+      "latestImport": [
+        [
+          {
+            "$date": "2026-11-20T18:29:23.064Z"
+          },
+          5209,
+          804,
+          26946
+        ]
+      ],
+      "longestRoutes": [
+        [
+          "858",
+          1,
+          "TTS",
+          "TRUNK",
+          "46009",
+          "Woodlands Int",
+          "46009",
+          "Woodlands Int",
+          "73.4",
+          75,
+          "PTB2 Basement",
+          "no_detected_gaps",
+          75,
+          "73.4"
+        ],
+        [
+          "966",
+          1,
+          "TTS",
+          "TRUNK",
+          "46009",
+          "Woodlands Int",
+          "46009",
+          "Woodlands Int",
+          "63.4",
+          51,
+          "Marine Parade Rd",
+          "no_detected_gaps",
+          51,
+          "63.4"
+        ],
+        [
+          "160",
+          1,
+          "SBST",
+          "TRUNK",
+          "29009",
+          "Jurong Town Hall Int",
+          "29009",
+          "Jurong Town Hall Int",
+          "50",
+          80,
+          "Jln Jim Quee",
+          "no_detected_gaps",
+          80,
+          "50"
+        ],
+        [
+          "27",
+          1,
+          "SBST",
+          "TRUNK",
+          "64009",
+          "Hougang Ctrl Int",
+          "64009",
+          "Hougang Ctrl Int",
+          "44.3",
+          57,
+          "PTB2 Basement",
+          "no_detected_gaps",
+          57,
+          "44.3"
+        ],
+        [
+          "89",
+          1,
+          "SBST",
+          "TRUNK",
+          "64009",
+          "Hougang Ctrl Int",
+          "64009",
+          "Hougang Ctrl Int",
+          "43.1",
+          95,
+          "Airport Cargo Rd",
+          "no_detected_gaps",
+          95,
+          "43.1"
+        ],
+        [
+          "857",
+          1,
+          "TTS",
+          "TRUNK",
+          "59009",
+          "Yishun Int",
+          "59009",
+          "Yishun Int",
+          "42.8",
+          65,
+          "Temasek Ave",
+          "no_detected_gaps",
+          65,
+          "42.8"
+        ],
+        [
+          "70M",
+          1,
+          "SBST",
+          "TRUNK",
+          "55509",
+          "Yio Chu Kang Int",
+          "55509",
+          "Yio Chu Kang Int",
+          "41.9",
+          105,
+          "Temasek Ave",
+          "no_detected_gaps",
+          105,
+          "41.9"
+        ],
+        [
+          "110",
+          1,
+          "SMRT",
+          "TRUNK",
+          "63009",
+          "Buangkok Int",
+          "63009",
+          "Buangkok Int",
+          "40.7",
+          32,
+          "PTB2 Basement",
+          "no_detected_gaps",
+          32,
+          "40.7"
+        ],
+        [
+          "975",
+          1,
+          "SMRT",
+          "TRUNK",
+          "45009",
+          "Bt Panjang Int",
+          "45009",
+          "Bt Panjang Int",
+          "40.7",
+          85,
+          "Lim Chu Kang Rd",
+          "no_detected_gaps",
+          85,
+          "40.7"
+        ],
+        [
+          "961M",
+          1,
+          "SMRT",
+          "TRUNK",
+          "47009",
+          "Woodlands Temp Int",
+          "80009",
+          "Lor 1 Geylang Ter",
+          "38.3",
+          89,
+          "",
+          "no_detected_gaps",
+          89,
+          "38.3"
+        ]
+      ]
+    },
+    "mongo": {
+      "version": "7.0.43",
+      "collections": {
+        "arrival_observations": {
+          "exists": true,
+          "count": 74725,
+          "options": {
+            "expireAfterSeconds": 7776000,
+            "timeseries": {
+              "timeField": "observedAt",
+              "metaField": "meta",
+              "granularity": "minutes",
+              "bucketMaxSpanSeconds": 86400
+            }
+          },
+          "indexes": [
+            {
+              "v": 2,
+              "key": {
+                "meta": 1,
+                "observedAt": 1
+              },
+              "name": "meta_1_observedAt_1"
+            },
+            {
+              "v": 2,
+              "key": {
+                "meta.serviceNo": 1,
+                "meta.stopCode": 1,
+                "observedAt": 1
+              },
+              "name": "service_stop_time"
+            },
+            {
+              "v": 2,
+              "key": {
+                "meta.stopCode": 1,
+                "observedAt": -1
+              },
+              "name": "stop_time"
+            }
+          ]
+        },
+        "arrival_latest": {
+          "exists": true,
+          "count": 5,
+          "options": {},
+          "indexes": [
+            {
+              "v": 2,
+              "key": {
+                "_id": 1
+              },
+              "name": "_id_"
+            },
+            {
+              "v": 2,
+              "key": {
+                "expiresAt": 1
+              },
+              "name": "expiresAt_1",
+              "expireAfterSeconds": 0
+            }
+          ]
+        },
+        "arrival_inbox": {
+          "exists": true,
+          "count": 11265,
+          "options": {},
+          "indexes": [
+            {
+              "v": 2,
+              "key": {
+                "_id": 1
+              },
+              "name": "_id_"
+            },
+            {
+              "v": 2,
+              "key": {
+                "expiresAt": 1
+              },
+              "name": "expiresAt_1",
+              "expireAfterSeconds": 0
+            },
+            {
+              "v": 2,
+              "key": {
+                "projected": 1,
+                "capturedAt": 1
+              },
+              "name": "projected_1_capturedAt_1"
+            }
+          ]
+        },
+        "arrival_live": {
+          "exists": true,
+          "count": 1,
+          "options": {},
+          "indexes": [
+            {
+              "v": 2,
+              "key": {
+                "_id": 1
+              },
+              "name": "_id_"
+            },
+            {
+              "v": 2,
+              "key": {
+                "expiresAt": 1
+              },
+              "name": "expiresAt_1",
+              "expireAfterSeconds": 0
+            }
+          ]
+        }
+      },
+      "latestObservation": {
+        "observedAt": {
+          "$date": "2026-11-22T11:07:25.452Z"
+        },
+        "meta": {
+          "operator": "SBST",
+          "serviceNo": "70M",
+          "stopCode": "66359"
+        },
+        "source": "LTA v3/BusArrival",
+        "_id": {
+          "$oid": "6b02ccedbd340b2700a22a35"
+        }
+      },
+      "selection": {
+        "service": "70M",
+        "stop": "66359",
+        "start": {
+          "$date": "2026-11-20T11:07:25.452Z"
+        },
+        "endExclusive": {
+          "$date": "2026-11-22T11:07:26.452Z"
+        }
+      },
+      "sources": [
+        {
+          "_id": "LTA v3/BusArrival",
+          "documents": 74725
+        }
+      ],
+      "note": "Counts are taken sequentially while the application may be writing. Source labels are stored provenance, not independent verification."
+    }
+  },
+  "errors": [],
+  "finishedAtUtc": {
+    "$date": "2026-11-22T11:07:33.237Z"
+  },
+  "status": "completed"
+}
